@@ -10,7 +10,7 @@
     "dev": "concurrently -n gql:codegen,next:dev 'pnpm gql:watch' 'pnpm next:dev'",
     "start": "pnpm dev",
     "prestart": "pnpm gql:codegen",
-    "build": "next build",
+    "build": "next build && pnpm prisma generate",
     "serve": "next start",
     "lint": "next lint",
     "format": "prettier --write . '!(node_modules|.next|contracts)/**/*'",
