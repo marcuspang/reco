@@ -6,6 +6,7 @@ import {
 } from "./storage.js";
 import { COMMANDS } from "./commands.js";
 import { getOAuthUrl } from "./discord.js";
+import { uploadEvent } from "./lighthouse.js";
 
 export const client = new Client({
   intents: [
@@ -29,6 +30,20 @@ export function startEvents() {
   client.on(Events.MessageCreate, async (message) => {
     console.log(
       `Received message from ${message.author.tag}: ${message.content}`
+    );
+
+    if (message.author.bot) return;
+    const messageStruct = {
+      content: message.content,
+      author: message.author.id,
+      channelId: message.channelId,
+      guildId: message.guildId,
+    };
+
+    const event = await uploadEvent(
+      messageStruct,
+      message.channelId,
+      message.guildId
     );
   });
 
