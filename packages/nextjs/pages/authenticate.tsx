@@ -1,4 +1,4 @@
-import { DiscordUser, Prisma } from "@prisma/client";
+import { DiscordUser } from "@prisma/client";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 import { signIn, useSession } from "next-auth/react";
