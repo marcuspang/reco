@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useBalance } from "wagmi";
+import { Address, useBalance } from "wagmi";
 import { useGlobalState } from "~~/services/store/store";
 import { getTargetNetwork } from "~~/utils/scaffold-eth";
 
@@ -13,7 +13,7 @@ export function useAccountBalance(address?: string) {
     isError,
     isLoading,
   } = useBalance({
-    address,
+    address: address as Address,
     watch: true,
     chainId: getTargetNetwork().id,
   });

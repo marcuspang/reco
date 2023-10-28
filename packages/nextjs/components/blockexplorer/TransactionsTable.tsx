@@ -1,6 +1,6 @@
 import { formatEther } from "viem";
 import { TransactionHash } from "~~/components/blockexplorer/TransactionHash";
-import { Address } from "~~/components/scaffold-eth";
+import { AddressComponent } from "~~/components/scaffold-eth";
 import { TransactionWithFunction, getTargetNetwork } from "~~/utils/scaffold-eth";
 import { TransactionsTableProps } from "~~/utils/scaffold-eth/";
 
@@ -43,14 +43,14 @@ export const TransactionsTable = ({ blocks, transactionReceipts }: TransactionsT
                     <td className="w-1/12 md:py-4">{block.number?.toString()}</td>
                     <td className="w-2/1 md:py-4">{timeMined}</td>
                     <td className="w-2/12 md:py-4">
-                      <Address address={tx.from} size="sm" />
+                      <AddressComponent address={tx.from} size="sm" />
                     </td>
                     <td className="w-2/12 md:py-4">
                       {!receipt?.contractAddress ? (
-                        tx.to && <Address address={tx.to} size="sm" />
+                        tx.to && <AddressComponent address={tx.to} size="sm" />
                       ) : (
                         <div className="relative">
-                          <Address address={receipt.contractAddress} size="sm" />
+                          <AddressComponent address={receipt.contractAddress} size="sm" />
                           <small className="absolute top-4 left-4">(Contract Creation)</small>
                         </div>
                       )}

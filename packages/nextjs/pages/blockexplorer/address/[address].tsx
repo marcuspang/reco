@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import fs from "fs";
 import { GetServerSideProps } from "next";
 import path from "path";
-import { createPublicClient, http } from "viem";
+import { Address, createPublicClient, http } from "viem";
 import { hardhat } from "wagmi/chains";
 import {
   AddressCodeTab,
@@ -12,7 +12,7 @@ import {
   PaginationButton,
   TransactionsTable,
 } from "~~/components/blockexplorer/";
-import { Address, Balance } from "~~/components/scaffold-eth";
+import { AddressComponent, Balance } from "~~/components/scaffold-eth";
 import deployedContracts from "~~/generated/deployedContracts";
 import { useFetchBlocks } from "~~/hooks/scaffold-eth";
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
@@ -40,7 +40,7 @@ const AddressPage = ({ address, contractData }: PageProps) => {
 
   useEffect(() => {
     const checkIsContract = async () => {
-      const contractCode = await publicClient.getBytecode({ address: address });
+      const contractCode = await publicClient.getBytecode({ address: address as Address });
       setIsContract(contractCode !== undefined && contractCode !== "0x");
     };
 
@@ -68,7 +68,7 @@ const AddressPage = ({ address, contractData }: PageProps) => {
           <div className="bg-base-100 border-base-300 border shadow-md shadow-secondary rounded-3xl px-6 lg:px-8 mb-6 space-y-1 py-4 overflow-x-auto">
             <div className="flex">
               <div className="flex flex-col gap-1">
-                <Address address={address} format="long" />
+                <AddressComponent address={address} format="long" />
                 <div className="flex gap-1 items-center">
                   <span className="font-bold text-sm">Balance:</span>
                   <Balance address={address} className="text" />
@@ -120,7 +120,7 @@ const AddressPage = ({ address, contractData }: PageProps) => {
         <AddressCodeTab bytecode={contractData.bytecode} assembly={contractData.assembly} />
       )}
       {activeTab === "storage" && <AddressStorageTab address={address} />}
-      {activeTab === "logs" && <AddressLogsTab address={address} />}
+      {activeTab === "logs" && <AddressLogsTab address={address as Address} />}
     </div>
   );
 };

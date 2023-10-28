@@ -4,7 +4,7 @@ import type { NextPage } from "next";
 import { Transaction, TransactionReceipt, formatEther, formatUnits } from "viem";
 import { usePublicClient } from "wagmi";
 import { hardhat } from "wagmi/chains";
-import { Address } from "~~/components/scaffold-eth";
+import { AddressComponent } from "~~/components/scaffold-eth";
 import { decodeTransactionData, getFunctionDetails, getTargetNetwork } from "~~/utils/scaffold-eth";
 
 const TransactionPage: NextPage = () => {
@@ -63,7 +63,7 @@ const TransactionPage: NextPage = () => {
                   <strong>From:</strong>
                 </td>
                 <td>
-                  <Address address={transaction.from} format="long" />
+                  <AddressComponent address={transaction.from} format="long" />
                 </td>
               </tr>
               <tr>
@@ -72,11 +72,11 @@ const TransactionPage: NextPage = () => {
                 </td>
                 <td>
                   {!receipt?.contractAddress ? (
-                    transaction.to && <Address address={transaction.to} format="long" />
+                    transaction.to && <AddressComponent address={transaction.to} format="long" />
                   ) : (
                     <span>
                       Contract Creation:
-                      <Address address={receipt.contractAddress} format="long" />
+                      <AddressComponent address={receipt.contractAddress} format="long" />
                     </span>
                   )}
                 </td>

@@ -25,11 +25,8 @@ const Authenticate: NextPage = () => {
           <h1>Please login</h1>
         ) : !proofOfHumanityExists ? (
           <>
-            <h1>Please register your PoH here</h1>
-            <a
-              href="https://robotornot.mainnet-beta.rarimo.com"
-              className="rounded-xl transition-colors bg-slate-700 hover:bg-slate-600 text-white py-2 px-6"
-            >
+            <h1 className="">Please register your PoH here</h1>
+            <a href="https://robotornot.mainnet-beta.rarimo.com" className="btn btn-primary">
               Prove your Humanity
             </a>
           </>

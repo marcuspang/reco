@@ -3,7 +3,7 @@ import { Address as AddressType, createWalletClient, http, parseEther } from "vi
 import { useNetwork } from "wagmi";
 import { hardhat } from "wagmi/chains";
 import { BanknotesIcon } from "@heroicons/react/24/outline";
-import { Address, AddressInput, Balance, EtherInput, getParsedError } from "~~/components/scaffold-eth";
+import { AddressComponent, AddressInput, Balance, EtherInput, getParsedError } from "~~/components/scaffold-eth";
 import { useTransactor } from "~~/hooks/scaffold-eth";
 import { notification } from "~~/utils/scaffold-eth";
 
@@ -99,7 +99,7 @@ export const Faucet = () => {
             <div className="flex space-x-4">
               <div>
                 <span className="text-sm font-bold">From:</span>
-                <Address address={faucetAddress} />
+                <AddressComponent address={faucetAddress} />
               </div>
               <div>
                 <span className="text-sm font-bold pl-3">Available:</span>
@@ -110,7 +110,7 @@ export const Faucet = () => {
               <AddressInput
                 placeholder="Destination Address"
                 value={inputAddress ?? ""}
-                onChange={value => setInputAddress(value)}
+                onChange={value => setInputAddress(value as AddressType)}
               />
               <EtherInput placeholder="Amount to send" value={sendValue} onChange={value => setSendValue(value)} />
               <button className="h-10 btn btn-primary btn-sm px-2 rounded-full" onClick={sendETH} disabled={loading}>

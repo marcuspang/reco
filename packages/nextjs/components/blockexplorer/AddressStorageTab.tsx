@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createPublicClient, http, toHex } from "viem";
+import { Address, createPublicClient, http, toHex } from "viem";
 import { hardhat } from "wagmi/chains";
 
 const publicClient = createPublicClient({
@@ -18,7 +18,7 @@ export const AddressStorageTab = ({ address }: { address: string }) => {
 
         while (true) {
           const storageAtPosition = await publicClient.getStorageAt({
-            address: address,
+            address: address as Address,
             slot: toHex(idx),
           });
 

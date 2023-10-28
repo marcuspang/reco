@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 
 import { gql } from "../../generated/gql";
-import { Address } from "../scaffold-eth";
+import { AddressComponent } from "../scaffold-eth";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { formatEther, parseEther } from "viem";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
@@ -37,7 +37,7 @@ const UserRow = ({
   return (
     <tr className="hover text-sm">
       <td className="w-1/12 md:py-4">
-        <Address address={address as HexString} />
+        <AddressComponent address={address as HexString} />
       </td>
       <td className="w-2/12 md:py-4">{premium ? `👑` : ""}</td>
       <td className="w-1/12 md:py-4">{greetingsCount}</td>
@@ -109,7 +109,7 @@ const SelectedUserTable = ({ user, goBack }: { user: User; goBack: () => void })
             <ChevronLeftIcon width={20} /> <span>BACK</span>
           </button>
 
-          <Address address={address as HexString} />
+          <AddressComponent address={address as HexString} />
           <div className="p-3">{premium ? `👑` : ""}</div>
         </div>
         <table className="table text-xl bg-base-100 table-zebra w-full md:table-md table-sm">

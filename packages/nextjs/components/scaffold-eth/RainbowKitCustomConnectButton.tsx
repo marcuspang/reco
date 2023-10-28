@@ -12,7 +12,7 @@ import {
   DocumentDuplicateIcon,
   QrCodeIcon,
 } from "@heroicons/react/24/outline";
-import { Address, Balance, BlockieAvatar } from "~~/components/scaffold-eth";
+import { AddressComponent, Balance, BlockieAvatar } from "~~/components/scaffold-eth";
 import { useAutoConnect, useNetworkColor } from "~~/hooks/scaffold-eth";
 import { getBlockExplorerAddressLink, getTargetNetwork } from "~~/utils/scaffold-eth";
 
@@ -178,7 +178,7 @@ export const RainbowKitCustomConnectButton = () => {
                         <div className="space-y-3 py-6">
                           <div className="flex space-x-4 flex-col items-center gap-6">
                             <QRCodeSVG value={account.address} size={256} />
-                            <Address address={account.address} format="long" disableAddressLink />
+                            <AddressComponent address={account.address} format="long" disableAddressLink />
                           </div>
                         </div>
                       </label>
