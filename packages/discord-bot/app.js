@@ -6,14 +6,11 @@ import {
 import "dotenv/config";
 import express from "express";
 import { getRandomEmoji } from "./utils.js";
+import { COMMANDS } from "./commands.js";
 
-// Create an express app
 const app = express();
 app.use(express.json({ verify: verifyKeyMiddleware }));
-// Get port, or default to 3000
 const PORT = process.env.PORT || 3000;
-// Store for in-progress games. In production, you'd want to use a DB
-const activeGames = {};
 
 /**
  * Interactions endpoint URL where Discord will send HTTP requests
@@ -36,17 +33,30 @@ app.post("/interactions", async function (req, res) {
   if (type === InteractionType.APPLICATION_COMMAND) {
     const { name } = data;
 
-    // "test" command
-    if (name === "test") {
-      // Send a message into the channel where command was triggered from
-      return res.send({
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data: {
-          // Fetches a random emoji to send from a helper function
-          content: "hello world " + getRandomEmoji(),
-        },
-      });
+    let response;
+    switch (name) {
+      case COMMANDS.TEST_COMMAND: {
+        // Send a message into the channel where command was triggered from
+        response = {
+          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+          data: {
+            // Fetches a random emoji to send from a helper function
+            content: "hello world " + getRandomEmoji(),
+          },
+        };
+        break;
+      }
+      case COMMANDS.HELP_COMMAND: {
+        response = {
+          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+          data: {
+            content: "help message",
+          },
+        };
+        break;
+      }
     }
+    return res.send(response);
   }
 });
 
