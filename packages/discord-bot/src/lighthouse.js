@@ -54,7 +54,7 @@ export async function getSocialObjectsData() {
 
   const promises = ipfsCids.map((cid) => s.get(CID.parse(cid)));
 
-  const results = await Promise.allSetted(promises);
+  const results = await Promise.allSettled(promises);
 
   const socialEvents = results
     .filter((result) => result.status === "fulfilled")
