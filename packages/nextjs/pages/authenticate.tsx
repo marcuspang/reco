@@ -1,4 +1,3 @@
-import { DiscordUser } from "@prisma/client";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 import { signIn, useSession } from "next-auth/react";
@@ -25,7 +24,7 @@ async function createUser(discordId: string, username: string, address: string) 
   if (!response.ok) {
     throw new Error("Failed to create user");
   }
-  return (await response.json()) as DiscordUser;
+  return await response.json();
 }
 
 async function getUser(discordId: string) {
