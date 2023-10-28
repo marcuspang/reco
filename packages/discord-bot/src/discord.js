@@ -162,3 +162,24 @@ export async function getMetadata(userId, tokens) {
     );
   }
 }
+
+export async function getChannelMessages() {
+  try {
+    const url = `https://discord.com/api/v10/channels/${process.env.DISCORD_CLIENT_ID}/messages`;
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
+      },
+    });
+
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error(
+        `Failed to fetch messages: ${response.status} ${response.statusText}`
+      );
+    }
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+}

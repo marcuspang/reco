@@ -58,12 +58,6 @@ const CONFIGURE_COMMAND = {
       description: "Enable or disable message sent to new members",
       options: [
         {
-          type: 6, // User option
-          name: "user",
-          description: "Select a user",
-          required: true,
-        },
-        {
           type: 3, // String option
           name: "prompt",
           description: "Enter the DM prompt text",
@@ -106,4 +100,5 @@ const ALL_COMMANDS = [
   SUPPORT_COMMAND,
 ];
 
+// uncomment this to update bot commands
 // InstallGlobalCommands(process.env.APP_ID, ALL_COMMANDS);
