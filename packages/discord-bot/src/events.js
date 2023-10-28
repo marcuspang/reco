@@ -4,9 +4,9 @@ import {
   isWelcomeMessageEnabled,
   setWelcomeMessage,
 } from "./storage.js";
-import { COMMANDS } from "./commands.js";
+import { COMMANDS } from "../scripts/commands.js";
 import { getOAuthUrl } from "./discord.js";
-import { uploadEvent } from "./lighthouse.js";
+import { uploadEvent, getEvents, getSocialObjectsData } from "./lighthouse.js";
 
 export const client = new Client({
   intents: [
@@ -40,11 +40,13 @@ export function startEvents() {
       guildId: message.guildId,
     };
 
-    const event = await uploadEvent(
+    const result = await uploadEvent(
       messageStruct,
       message.channelId,
       message.guildId
     );
+    console.log("Event uploaded to IPFS:", result);
+    // TODO: upload Hash to contract
   });
 
   client.on(Events.GuildMemberAdd, async (member) => {
@@ -62,15 +64,13 @@ export function startEvents() {
 
     const { commandName, options } = interaction;
     switch (commandName) {
-      case COMMANDS.TEST_COMMAND:
-        await interaction.reply("Hello World");
-        break;
-      case COMMANDS.HELP_COMMAND:
+      case COMMANDS.HELP_COMMAND: {
         await interaction.reply(
-          "Need help? Contact us on https://github.com/recommendoor/recommendoor"
+          "Need help? Contact us on `https://github.com/recommendoor/recommendoor`"
         );
         break;
-      case COMMANDS.CONFIGURE_COMMAND:
+      }
+      case COMMANDS.CONFIGURE_COMMAND: {
         const subcommandName = options.getSubcommand();
         switch (subcommandName) {
           case "dm_prompt":
@@ -84,7 +84,7 @@ export function startEvents() {
               !isEnabled
             );
             await interaction.reply(
-              `DM prompt is now ${!isEnabled ? "enabled" : "disabled"}`
+              `DM prompt is now ${!isEnabled ? "`enabled`" : "`disabled`"}`
             );
             break;
           case "dm_message":
@@ -93,6 +93,9 @@ export function startEvents() {
               interaction.guildId,
               interaction.channelId,
               newWelcomeMessage
+            );
+            await interaction.reply(
+              `DM message is now: \`${newWelcomeMessage}\``
             );
             break;
           case "role":
@@ -103,19 +106,51 @@ export function startEvents() {
             break;
         }
         break;
-      case COMMANDS.INVITE_COMMAND:
+      }
+      case COMMANDS.INVITE_COMMAND: {
         await interaction.reply("Invite command");
         break;
-      case COMMANDS.VERIFY_COMMAND:
+      }
+      case COMMANDS.VERIFY_COMMAND: {
         // get verification link
         const { state: _, url } = getOAuthUrl();
         await interaction.reply(url);
         break;
-      case COMMANDS.SUPPORT_COMMAND:
+      }
+      case COMMANDS.SUPPORT_COMMAND: {
         await interaction.reply(
           "Contact us at https://github.com/recommendoor/recommendoor"
         );
         break;
+      }
+      case COMMANDS.GENERATE_COMMAND: {
+        const subcommandName = options.getSubcommand();
+        switch (subcommandName) {
+          case "summarise":
+            const summary = await getSocialObjectsData();
+            await interaction.reply("Summary of the channel: " + summary);
+            break;
+          case "itinerary":
+            break;
+          case "governance":
+            break;
+          default:
+            await interaction.reply("Unknown subcommand");
+            break;
+        }
+        break;
+      }
+      // DEBUG COMMANDS
+      case COMMANDS.LIST_EVENTS_COMMAND: {
+        const events = await getEvents();
+        const eventCids = events.fileList.map((event) => event.cid);
+        await interaction.reply(`Events: \`${JSON.stringify(eventCids)}\``);
+        break;
+      }
+      case COMMANDS.TEST_COMMAND: {
+        await interaction.reply("Hello World");
+        break;
+      }
       default:
         await interaction.reply("Unknown command");
         break;

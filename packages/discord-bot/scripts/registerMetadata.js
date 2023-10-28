@@ -1,5 +1,5 @@
-import fetch from "node-fetch";
 import "dotenv/config";
+import fetch from "node-fetch";
 
 /**
  * Register the metadata to be stored by Discord. This should be a one time action.

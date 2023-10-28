@@ -1,16 +1,10 @@
 import cookieParser from "cookie-parser";
-import {
-  InteractionResponseType,
-  InteractionType,
-  verifyKeyMiddleware,
-} from "discord-interactions";
+import { verifyKeyMiddleware } from "discord-interactions";
 import "dotenv/config";
 import express from "express";
-import { COMMANDS } from "./commands.js";
 import * as discord from "./discord.js";
-import * as storage from "./storage.js";
-import { getRandomEmoji } from "./utils.js";
 import { startEvents } from "./events.js";
+import * as storage from "./storage.js";
 
 const app = express();
 app.use(express.json({ verify: verifyKeyMiddleware }));

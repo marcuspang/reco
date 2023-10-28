@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { capitalize, InstallGlobalCommands } from "./utils.js";
+import { InstallGlobalCommands } from "../src/utils.js";
 
 export const COMMANDS = {
   TEST_COMMAND: "test",
@@ -8,13 +8,8 @@ export const COMMANDS = {
   CONFIGURE_COMMAND: "configure",
   VERIFY_COMMAND: "verify",
   SUPPORT_COMMAND: "support",
-};
-
-// Simple test command
-const TEST_COMMAND = {
-  name: COMMANDS.TEST_COMMAND,
-  description: "Basic command",
-  type: 1,
+  LIST_EVENTS_COMMAND: "list_events",
+  GENERATE_COMMAND: "generate",
 };
 
 const INVITE_COMMAND = {
@@ -34,7 +29,7 @@ const CONFIGURE_COMMAND = {
   description: "Configure various settings",
   options: [
     {
-      type: 1, // Subcommand option
+      type: 1,
       name: "role",
       description: "Change the role given to verified members",
       options: [
@@ -45,7 +40,7 @@ const CONFIGURE_COMMAND = {
           required: true,
         },
         {
-          type: 3, // String option
+          type: 3,
           name: "role",
           description: "Enter the role name",
           required: true,
@@ -53,12 +48,12 @@ const CONFIGURE_COMMAND = {
       ],
     },
     {
-      type: 1, // Subcommand option
+      type: 1,
       name: "dm_prompt",
       description: "Enable or disable message sent to new members",
       options: [
         {
-          type: 3, // String option
+          type: 3,
           name: "prompt",
           description: "Enter the DM prompt text",
           required: true,
@@ -66,12 +61,12 @@ const CONFIGURE_COMMAND = {
       ],
     },
     {
-      type: 1, // Subcommand option
+      type: 1,
       name: "dm_message",
       description: "Configure the message sent to new members",
       options: [
         {
-          type: 3, // String option
+          type: 3,
           name: "message",
           description: "Enter the new member message",
           required: true,
@@ -80,15 +75,56 @@ const CONFIGURE_COMMAND = {
     },
   ],
 };
+
 const VERIFY_COMMAND = {
   type: 1,
   name: COMMANDS.VERIFY_COMMAND,
   description: "Receive a link to verify yourself.",
 };
+
 const SUPPORT_COMMAND = {
   type: 1,
   name: COMMANDS.SUPPORT_COMMAND,
   description: "Join the support server.",
+};
+
+// itinerary, summary, governance
+const GENERATE_COMMAND = {
+  type: 1,
+  name: COMMANDS.GENERATE_COMMAND,
+  description: "Generate content with the help of a decentralized AI model.",
+  options: [
+    {
+      type: 1,
+      name: "summarise",
+      description: "Summarise the channel's texts in the past day.",
+    },
+    {
+      type: 1,
+      name: "itinerary",
+      description: "Generate an itinerary for the channel for the channel.",
+    },
+    {
+      type: 1,
+      name: "governance",
+      description:
+        "Generate sentiment analysis for the discussion of governance in the channel.",
+    },
+  ],
+};
+
+// DEBUG ONLY COMMANDS
+
+const LIST_EVENTS_COMMAND = {
+  type: 1,
+  name: COMMANDS.LIST_EVENTS_COMMAND,
+  description: "List all events for the current channel.",
+};
+
+const TEST_COMMAND = {
+  name: COMMANDS.TEST_COMMAND,
+  description: "Basic command",
+  type: 1,
 };
 
 const ALL_COMMANDS = [
@@ -98,6 +134,8 @@ const ALL_COMMANDS = [
   CONFIGURE_COMMAND,
   VERIFY_COMMAND,
   SUPPORT_COMMAND,
+  LIST_EVENTS_COMMAND,
+  GENERATE_COMMAND,
 ];
 
 // uncomment this to update bot commands
