@@ -1,10 +1,13 @@
-import * as dotenv from "dotenv";
-dotenv.config();
-import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox";
-import "hardhat-deploy";
 import "@matterlabs/hardhat-zksync-solc";
 import "@matterlabs/hardhat-zksync-verify";
+import "@nomicfoundation/hardhat-chai-matchers";
+import "@nomicfoundation/hardhat-toolbox";
+import "@typechain/hardhat";
+import "dotenv/config";
+import "hardhat-deploy";
+import { TASK_COMPILE } from "hardhat/builtin-tasks/task-names";
+import { HardhatUserConfig, task } from "hardhat/config";
+import intercept from "intercept-stdout";
 
 // If not set, it uses ours Alchemy's default API key.
 // You can get your own at https://dashboard.alchemyapi.io
@@ -14,17 +17,39 @@ const deployerPrivateKey =
   process.env.DEPLOYER_PRIVATE_KEY ?? "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 // If not set, it uses ours Etherscan default API key.
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW";
+const FLARE_RPC_API_KEY = process.env.FLARE_RPC_API_KEY;
+const FLARESCAN_API_KEY = process.env.FLARESCAN_API_KEY;
+const FLARE_EXPLORER_API_KEY = process.env.FLARE_EXPLORER_API_KEY;
+
+// Override solc compile task and filter out useless warnings
+task(TASK_COMPILE).setAction(async (args, hre, runSuper) => {
+  intercept((text: any) => {
+    if (/MockContract.sol/.test(text) && text.match(/Warning: SPDX license identifier not provided in source file/))
+      return "";
+    if (
+      /MockContract.sol/.test(text) &&
+      /Warning: This contract has a payable fallback function, but no receive ether function/.test(text)
+    )
+      return "";
+    return text;
+  });
+  await runSuper(args);
+});
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.17",
-    settings: {
-      optimizer: {
-        enabled: true,
-        // https://docs.soliditylang.org/en/latest/using-the-compiler.html#optimizer-options
-        runs: 200,
+    compilers: [
+      {
+        version: "0.8.20",
+        settings: {
+          evmVersion: "london",
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
       },
-    },
+    ],
   },
   defaultNetwork: "localhost",
   namedAccounts: {
@@ -118,11 +143,83 @@ const config: HardhatUserConfig = {
       url: "https://sepolia-rpc.scroll.io",
       accounts: [deployerPrivateKey],
     },
-  },
-  verify: {
-    etherscan: {
-      apiKey: `${etherscanApiKey}`,
+    coston: {
+      url:
+        "https://coston-api.flare.network/ext/bc/C/rpc" + (FLARE_RPC_API_KEY ? `?x-apikey=${FLARE_RPC_API_KEY}` : ""),
+      accounts: [deployerPrivateKey],
+      chainId: 16,
     },
+    coston2: {
+      url: "https://coston2-api.flare.network/ext/C/rpc" + (FLARE_RPC_API_KEY ? `?x-apikey=${FLARE_RPC_API_KEY}` : ""),
+      accounts: [deployerPrivateKey],
+      chainId: 114,
+    },
+    songbird: {
+      url:
+        "https://songbird-api.flare.network/ext/bc/C/rpc" + (FLARE_RPC_API_KEY ? `?x-apikey=${FLARE_RPC_API_KEY}` : ""),
+      accounts: [deployerPrivateKey],
+      chainId: 19,
+    },
+    flare: {
+      url: "https://flare-api.flare.network/ext/C/rpc" + (FLARE_RPC_API_KEY ? `?x-apikey=${FLARE_RPC_API_KEY}` : ""),
+      accounts: [deployerPrivateKey],
+      chainId: 14,
+    },
+  },
+  etherscan: {
+    apiKey: {
+      sepolia: etherscanApiKey,
+      goerli: etherscanApiKey,
+      mainnet: etherscanApiKey,
+      coston: `${FLARESCAN_API_KEY}`,
+      coston2: `${FLARESCAN_API_KEY}`,
+      songbird: `${FLARESCAN_API_KEY}`,
+      flare: `${FLARESCAN_API_KEY}`,
+    },
+    customChains: [
+      {
+        network: "coston",
+        chainId: 16,
+        urls: {
+          // faucet: https://faucet.towolabs.com/
+          apiURL:
+            "https://coston-explorer.flare.network/api" +
+            (FLARE_EXPLORER_API_KEY ? `?x-apikey=${FLARE_EXPLORER_API_KEY}` : ""), // Must not have / endpoint
+          browserURL: "https://coston-explorer.flare.network",
+        },
+      },
+      {
+        network: "coston2",
+        chainId: 114,
+        urls: {
+          // faucet: https://coston2-faucet.towolabs.com/
+          apiURL:
+            "https://coston2-explorer.flare.network/api" +
+            (FLARE_EXPLORER_API_KEY ? `?x-apikey=${FLARE_EXPLORER_API_KEY}` : ""), // Must not have / endpoint
+          browserURL: "https://coston2-explorer.flare.network",
+        },
+      },
+      {
+        network: "songbird",
+        chainId: 19,
+        urls: {
+          apiURL:
+            "https://songbird-explorer.flare.network/api" +
+            (FLARE_EXPLORER_API_KEY ? `?x-apikey=${FLARE_EXPLORER_API_KEY}` : ""), // Must not have / endpoint
+          browserURL: "https://songbird-explorer.flare.network/",
+        },
+      },
+      {
+        network: "flare",
+        chainId: 14,
+        urls: {
+          apiURL:
+            "https://flare-explorer.flare.network/api" +
+            (FLARE_EXPLORER_API_KEY ? `?x-apikey=${FLARE_EXPLORER_API_KEY}` : ""), // Must not have / endpoint
+          browserURL: "https://flare-explorer.flare.network/",
+        },
+      },
+    ],
   },
 };
 
