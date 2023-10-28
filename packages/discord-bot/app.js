@@ -10,7 +10,7 @@ import { COMMANDS } from "./commands.js";
 
 const app = express();
 app.use(express.json({ verify: verifyKeyMiddleware }));
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 /**
  * Interactions endpoint URL where Discord will send HTTP requests

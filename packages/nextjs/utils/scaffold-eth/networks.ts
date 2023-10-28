@@ -22,38 +22,16 @@ export const NETWORKS_EXTRA_DATA: Record<string, TChainAttributes> = {
   [chains.goerli.id]: {
     color: "#0975F6",
   },
-  [chains.gnosis.id]: {
-    color: "#48a9a6",
-  },
-  [chains.polygon.id]: {
-    color: "#2bbdf7",
-    nativeCurrencyTokenAddress: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
-  },
   [chains.polygonMumbai.id]: {
     color: "#92D9FA",
     nativeCurrencyTokenAddress: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
   },
-  [chains.optimismGoerli.id]: {
-    color: "#f01a37",
+  [chains.flareTestnet.id]: {
+    color: "orange",
   },
-  [chains.optimism.id]: {
-    color: "#f01a37",
+  [chains.flare.id]: {
+    color: "red",
   },
-  [chains.arbitrumGoerli.id]: {
-    color: "#28a0f0",
-  },
-  [chains.arbitrum.id]: {
-    color: "#28a0f0",
-  },
-  [chains.fantom.id]: {
-    color: "#1969ff",
-  },
-  [chains.fantomTestnet.id]: {
-    color: "#1969ff",
-  },
-  [chains.scrollSepolia.id]: {
-    color: '#fbebd4'
-  }
 };
 
 /**
