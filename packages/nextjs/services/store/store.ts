@@ -1,3 +1,4 @@
+import { User } from "next-auth";
 import { create } from "zustand";
 
 /**
@@ -12,9 +13,14 @@ import { create } from "zustand";
 type TGlobalState = {
   nativeCurrencyPrice: number;
   setNativeCurrencyPrice: (newNativeCurrencyPriceState: number) => void;
+
+  discordUser?: User;
+  setDiscordUser: (newDiscord: User) => void;
 };
 
 export const useGlobalState = create<TGlobalState>(set => ({
   nativeCurrencyPrice: 0,
   setNativeCurrencyPrice: (newValue: number): void => set(() => ({ nativeCurrencyPrice: newValue })),
+  discordUser: undefined,
+  setDiscordUser: (newValue: User): void => set(() => ({ discordUser: newValue })),
 }));
