@@ -22,16 +22,21 @@ const Authenticate: NextPage = () => {
       <MetaHeader />
       <div className="flex items-center flex-col flex-grow pt-10">
         {!address ? (
-          <h1>Please login</h1>
+          <h1 className="font-bold text-2xl">Please login</h1>
         ) : !proofOfHumanityExists ? (
           <>
-            <h1 className="">Please register your PoH here</h1>
+            <h1 className="font-bold text-2xl">Please register your PoH here</h1>
             <a href="https://robotornot.mainnet-beta.rarimo.com" className="btn btn-primary">
               Prove your Humanity
             </a>
           </>
         ) : (
-          <h1>Authenticated!</h1>
+          <>
+            <h1 className="font-bold text-2xl">Authenticated!</h1>
+            <a href={process.env.NEXT_PUBLIC_BOT_URL + "/linked-role"} className="link">
+              Click here to get access to Discord
+            </a>
+          </>
         )}
       </div>
     </>
