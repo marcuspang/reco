@@ -1,14 +1,63 @@
 import {
-  useContractRead,
-  UseContractReadConfig,
   useContractWrite,
   UseContractWriteConfig,
   usePrepareContractWrite,
   UsePrepareContractWriteConfig,
   useContractEvent,
   UseContractEventConfig,
+  useContractRead,
+  UseContractReadConfig,
 } from 'wagmi'
-import { ReadContractResult, WriteContractMode, PrepareWriteContractResult } from 'wagmi/actions'
+import { WriteContractMode, PrepareWriteContractResult, ReadContractResult } from 'wagmi/actions'
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Recommendoor
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const recommendoorABI = [
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      { name: 'ipfsHash', internalType: 'string', type: 'string', indexed: false },
+      { name: 'action', internalType: 'string', type: 'string', indexed: false },
+    ],
+    name: 'InteractData',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      { name: 'ipfsHash', internalType: 'string', type: 'string', indexed: false },
+      { name: 'channel', internalType: 'string', type: 'string', indexed: false },
+    ],
+    name: 'UploadData',
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address' },
+      { name: 'ipfsHash', internalType: 'string', type: 'string' },
+      { name: 'action', internalType: 'string', type: 'string' },
+    ],
+    name: 'interactContent',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address' },
+      { name: 'ipfsHash', internalType: 'string', type: 'string' },
+      { name: 'channel', internalType: 'string', type: 'string' },
+    ],
+    name: 'uploadData',
+    outputs: [],
+  },
+] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // erc721
@@ -165,6 +214,144 @@ export const erc721ABI = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link recommendoorABI}__.
+ */
+export function useRecommendoorWrite<TFunctionName extends string, TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof recommendoorABI, string>['request']['abi'],
+        TFunctionName,
+        TMode
+      >
+    : UseContractWriteConfig<typeof recommendoorABI, TFunctionName, TMode> & {
+        abi?: never
+      } = {} as any,
+) {
+  return useContractWrite<typeof recommendoorABI, TFunctionName, TMode>({ abi: recommendoorABI, ...config } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link recommendoorABI}__ and `functionName` set to `"interactContent"`.
+ */
+export function useRecommendoorInteractContent<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof recommendoorABI, 'interactContent'>['request']['abi'],
+        'interactContent',
+        TMode
+      > & { functionName?: 'interactContent' }
+    : UseContractWriteConfig<typeof recommendoorABI, 'interactContent', TMode> & {
+        abi?: never
+        functionName?: 'interactContent'
+      } = {} as any,
+) {
+  return useContractWrite<typeof recommendoorABI, 'interactContent', TMode>({
+    abi: recommendoorABI,
+    functionName: 'interactContent',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link recommendoorABI}__ and `functionName` set to `"uploadData"`.
+ */
+export function useRecommendoorUploadData<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof recommendoorABI, 'uploadData'>['request']['abi'],
+        'uploadData',
+        TMode
+      > & { functionName?: 'uploadData' }
+    : UseContractWriteConfig<typeof recommendoorABI, 'uploadData', TMode> & {
+        abi?: never
+        functionName?: 'uploadData'
+      } = {} as any,
+) {
+  return useContractWrite<typeof recommendoorABI, 'uploadData', TMode>({
+    abi: recommendoorABI,
+    functionName: 'uploadData',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link recommendoorABI}__.
+ */
+export function usePrepareRecommendoorWrite<TFunctionName extends string>(
+  config: Omit<UsePrepareContractWriteConfig<typeof recommendoorABI, TFunctionName>, 'abi'> = {} as any,
+) {
+  return usePrepareContractWrite({ abi: recommendoorABI, ...config } as UsePrepareContractWriteConfig<
+    typeof recommendoorABI,
+    TFunctionName
+  >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link recommendoorABI}__ and `functionName` set to `"interactContent"`.
+ */
+export function usePrepareRecommendoorInteractContent(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof recommendoorABI, 'interactContent'>,
+    'abi' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: recommendoorABI,
+    functionName: 'interactContent',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof recommendoorABI, 'interactContent'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link recommendoorABI}__ and `functionName` set to `"uploadData"`.
+ */
+export function usePrepareRecommendoorUploadData(
+  config: Omit<UsePrepareContractWriteConfig<typeof recommendoorABI, 'uploadData'>, 'abi' | 'functionName'> = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: recommendoorABI,
+    functionName: 'uploadData',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof recommendoorABI, 'uploadData'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link recommendoorABI}__.
+ */
+export function useRecommendoorEvent<TEventName extends string>(
+  config: Omit<UseContractEventConfig<typeof recommendoorABI, TEventName>, 'abi'> = {} as any,
+) {
+  return useContractEvent({ abi: recommendoorABI, ...config } as UseContractEventConfig<
+    typeof recommendoorABI,
+    TEventName
+  >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link recommendoorABI}__ and `eventName` set to `"InteractData"`.
+ */
+export function useRecommendoorInteractDataEvent(
+  config: Omit<UseContractEventConfig<typeof recommendoorABI, 'InteractData'>, 'abi' | 'eventName'> = {} as any,
+) {
+  return useContractEvent({ abi: recommendoorABI, eventName: 'InteractData', ...config } as UseContractEventConfig<
+    typeof recommendoorABI,
+    'InteractData'
+  >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link recommendoorABI}__ and `eventName` set to `"UploadData"`.
+ */
+export function useRecommendoorUploadDataEvent(
+  config: Omit<UseContractEventConfig<typeof recommendoorABI, 'UploadData'>, 'abi' | 'eventName'> = {} as any,
+) {
+  return useContractEvent({ abi: recommendoorABI, eventName: 'UploadData', ...config } as UseContractEventConfig<
+    typeof recommendoorABI,
+    'UploadData'
+  >)
+}
 
 /**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc721ABI}__.

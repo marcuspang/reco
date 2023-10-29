@@ -12,7 +12,6 @@ const provider = new JsonRpcProvider(
   "https://goerli.infura.io/v3/71b56d4c42e24a859ed97faf317b3e24",
   "goerli"
 );
-// const contract = new Contract(process.env.FLARE_RECOMMENDOOR_CONTRACT_ADDRESS);
 const wallet = new Wallet(process.env.PRIVATE_KEY, provider);
 
 export async function uploadEvent(event) {

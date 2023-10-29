@@ -1,5 +1,4 @@
 /* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -21,192 +20,6 @@ export type Scalars = {
   timestamp: { input: any; output: any; }
 };
 
-/** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
-export type Boolean_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['Boolean']['input']>;
-  _gt?: InputMaybe<Scalars['Boolean']['input']>;
-  _gte?: InputMaybe<Scalars['Boolean']['input']>;
-  _in?: InputMaybe<Array<Scalars['Boolean']['input']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
-  _lt?: InputMaybe<Scalars['Boolean']['input']>;
-  _lte?: InputMaybe<Scalars['Boolean']['input']>;
-  _neq?: InputMaybe<Scalars['Boolean']['input']>;
-  _nin?: InputMaybe<Array<Scalars['Boolean']['input']>>;
-};
-
-/** columns and relationships of "Greeting" */
-export type Greeting = {
-  __typename?: 'Greeting';
-  db_write_timestamp?: Maybe<Scalars['timestamp']['output']>;
-  event_chain_id: Scalars['Int']['output'];
-  event_id: Scalars['numeric']['output'];
-  greeting: Scalars['String']['output'];
-  id: Scalars['String']['output'];
-  premium: Scalars['Boolean']['output'];
-  user: Scalars['String']['output'];
-  value: Scalars['numeric']['output'];
-};
-
-/** order by aggregate values of table "Greeting" */
-export type Greeting_Aggregate_Order_By = {
-  avg?: InputMaybe<Greeting_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Greeting_Max_Order_By>;
-  min?: InputMaybe<Greeting_Min_Order_By>;
-  stddev?: InputMaybe<Greeting_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Greeting_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Greeting_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Greeting_Sum_Order_By>;
-  var_pop?: InputMaybe<Greeting_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Greeting_Var_Samp_Order_By>;
-  variance?: InputMaybe<Greeting_Variance_Order_By>;
-};
-
-/** order by avg() on columns of table "Greeting" */
-export type Greeting_Avg_Order_By = {
-  event_chain_id?: InputMaybe<Order_By>;
-  event_id?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "Greeting". All fields are combined with a logical 'AND'. */
-export type Greeting_Bool_Exp = {
-  _and?: InputMaybe<Array<Greeting_Bool_Exp>>;
-  _not?: InputMaybe<Greeting_Bool_Exp>;
-  _or?: InputMaybe<Array<Greeting_Bool_Exp>>;
-  db_write_timestamp?: InputMaybe<Timestamp_Comparison_Exp>;
-  event_chain_id?: InputMaybe<Int_Comparison_Exp>;
-  event_id?: InputMaybe<Numeric_Comparison_Exp>;
-  greeting?: InputMaybe<String_Comparison_Exp>;
-  id?: InputMaybe<String_Comparison_Exp>;
-  premium?: InputMaybe<Boolean_Comparison_Exp>;
-  user?: InputMaybe<String_Comparison_Exp>;
-  value?: InputMaybe<Numeric_Comparison_Exp>;
-};
-
-/** order by max() on columns of table "Greeting" */
-export type Greeting_Max_Order_By = {
-  db_write_timestamp?: InputMaybe<Order_By>;
-  event_chain_id?: InputMaybe<Order_By>;
-  event_id?: InputMaybe<Order_By>;
-  greeting?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  user?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-};
-
-/** order by min() on columns of table "Greeting" */
-export type Greeting_Min_Order_By = {
-  db_write_timestamp?: InputMaybe<Order_By>;
-  event_chain_id?: InputMaybe<Order_By>;
-  event_id?: InputMaybe<Order_By>;
-  greeting?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  user?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-};
-
-/** Ordering options when selecting data from "Greeting". */
-export type Greeting_Order_By = {
-  db_write_timestamp?: InputMaybe<Order_By>;
-  event_chain_id?: InputMaybe<Order_By>;
-  event_id?: InputMaybe<Order_By>;
-  greeting?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  premium?: InputMaybe<Order_By>;
-  user?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-};
-
-/** select columns of table "Greeting" */
-export enum Greeting_Select_Column {
-  /** column name */
-  DbWriteTimestamp = 'db_write_timestamp',
-  /** column name */
-  EventChainId = 'event_chain_id',
-  /** column name */
-  EventId = 'event_id',
-  /** column name */
-  Greeting = 'greeting',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Premium = 'premium',
-  /** column name */
-  User = 'user',
-  /** column name */
-  Value = 'value'
-}
-
-/** order by stddev() on columns of table "Greeting" */
-export type Greeting_Stddev_Order_By = {
-  event_chain_id?: InputMaybe<Order_By>;
-  event_id?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-};
-
-/** order by stddev_pop() on columns of table "Greeting" */
-export type Greeting_Stddev_Pop_Order_By = {
-  event_chain_id?: InputMaybe<Order_By>;
-  event_id?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-};
-
-/** order by stddev_samp() on columns of table "Greeting" */
-export type Greeting_Stddev_Samp_Order_By = {
-  event_chain_id?: InputMaybe<Order_By>;
-  event_id?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-};
-
-/** Streaming cursor of the table "Greeting" */
-export type Greeting_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Greeting_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering?: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Greeting_Stream_Cursor_Value_Input = {
-  db_write_timestamp?: InputMaybe<Scalars['timestamp']['input']>;
-  event_chain_id?: InputMaybe<Scalars['Int']['input']>;
-  event_id?: InputMaybe<Scalars['numeric']['input']>;
-  greeting?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  premium?: InputMaybe<Scalars['Boolean']['input']>;
-  user?: InputMaybe<Scalars['String']['input']>;
-  value?: InputMaybe<Scalars['numeric']['input']>;
-};
-
-/** order by sum() on columns of table "Greeting" */
-export type Greeting_Sum_Order_By = {
-  event_chain_id?: InputMaybe<Order_By>;
-  event_id?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-};
-
-/** order by var_pop() on columns of table "Greeting" */
-export type Greeting_Var_Pop_Order_By = {
-  event_chain_id?: InputMaybe<Order_By>;
-  event_id?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-};
-
-/** order by var_samp() on columns of table "Greeting" */
-export type Greeting_Var_Samp_Order_By = {
-  event_chain_id?: InputMaybe<Order_By>;
-  event_id?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-};
-
-/** order by variance() on columns of table "Greeting" */
-export type Greeting_Variance_Order_By = {
-  event_chain_id?: InputMaybe<Order_By>;
-  event_id?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-};
-
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['Int']['input']>;
@@ -218,6 +31,80 @@ export type Int_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['Int']['input']>;
   _neq?: InputMaybe<Scalars['Int']['input']>;
   _nin?: InputMaybe<Array<Scalars['Int']['input']>>;
+};
+
+/** columns and relationships of "InteractData" */
+export type InteractData = {
+  __typename?: 'InteractData';
+  action: Scalars['String']['output'];
+  db_write_timestamp?: Maybe<Scalars['timestamp']['output']>;
+  event_chain_id: Scalars['Int']['output'];
+  event_id: Scalars['numeric']['output'];
+  id: Scalars['String']['output'];
+  ipfsHash: Scalars['String']['output'];
+  user: Scalars['String']['output'];
+};
+
+/** Boolean expression to filter rows from the table "InteractData". All fields are combined with a logical 'AND'. */
+export type InteractData_Bool_Exp = {
+  _and?: InputMaybe<Array<InteractData_Bool_Exp>>;
+  _not?: InputMaybe<InteractData_Bool_Exp>;
+  _or?: InputMaybe<Array<InteractData_Bool_Exp>>;
+  action?: InputMaybe<String_Comparison_Exp>;
+  db_write_timestamp?: InputMaybe<Timestamp_Comparison_Exp>;
+  event_chain_id?: InputMaybe<Int_Comparison_Exp>;
+  event_id?: InputMaybe<Numeric_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  ipfsHash?: InputMaybe<String_Comparison_Exp>;
+  user?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** Ordering options when selecting data from "InteractData". */
+export type InteractData_Order_By = {
+  action?: InputMaybe<Order_By>;
+  db_write_timestamp?: InputMaybe<Order_By>;
+  event_chain_id?: InputMaybe<Order_By>;
+  event_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  ipfsHash?: InputMaybe<Order_By>;
+  user?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "InteractData" */
+export enum InteractData_Select_Column {
+  /** column name */
+  Action = 'action',
+  /** column name */
+  DbWriteTimestamp = 'db_write_timestamp',
+  /** column name */
+  EventChainId = 'event_chain_id',
+  /** column name */
+  EventId = 'event_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IpfsHash = 'ipfsHash',
+  /** column name */
+  User = 'user'
+}
+
+/** Streaming cursor of the table "InteractData" */
+export type InteractData_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: InteractData_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type InteractData_Stream_Cursor_Value_Input = {
+  action?: InputMaybe<Scalars['String']['input']>;
+  db_write_timestamp?: InputMaybe<Scalars['timestamp']['input']>;
+  event_chain_id?: InputMaybe<Scalars['Int']['input']>;
+  event_id?: InputMaybe<Scalars['numeric']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  ipfsHash?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -253,61 +140,47 @@ export type String_Comparison_Exp = {
   _similar?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** columns and relationships of "User" */
-export type User = {
-  __typename?: 'User';
-  address: Scalars['String']['output'];
+/** columns and relationships of "UploadData" */
+export type UploadData = {
+  __typename?: 'UploadData';
+  channel: Scalars['String']['output'];
   db_write_timestamp?: Maybe<Scalars['timestamp']['output']>;
   event_chain_id: Scalars['Int']['output'];
   event_id: Scalars['numeric']['output'];
-  /** An array relationship */
-  greetings: Array<Greeting>;
-  greetingsCount: Scalars['Int']['output'];
   id: Scalars['String']['output'];
-  premium: Scalars['Boolean']['output'];
+  ipfsHash: Scalars['String']['output'];
+  user: Scalars['String']['output'];
 };
 
-
-/** columns and relationships of "User" */
-export type UserGreetingsArgs = {
-  distinct_on?: InputMaybe<Array<Greeting_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Greeting_Order_By>>;
-  where?: InputMaybe<Greeting_Bool_Exp>;
-};
-
-/** Boolean expression to filter rows from the table "User". All fields are combined with a logical 'AND'. */
-export type User_Bool_Exp = {
-  _and?: InputMaybe<Array<User_Bool_Exp>>;
-  _not?: InputMaybe<User_Bool_Exp>;
-  _or?: InputMaybe<Array<User_Bool_Exp>>;
-  address?: InputMaybe<String_Comparison_Exp>;
+/** Boolean expression to filter rows from the table "UploadData". All fields are combined with a logical 'AND'. */
+export type UploadData_Bool_Exp = {
+  _and?: InputMaybe<Array<UploadData_Bool_Exp>>;
+  _not?: InputMaybe<UploadData_Bool_Exp>;
+  _or?: InputMaybe<Array<UploadData_Bool_Exp>>;
+  channel?: InputMaybe<String_Comparison_Exp>;
   db_write_timestamp?: InputMaybe<Timestamp_Comparison_Exp>;
   event_chain_id?: InputMaybe<Int_Comparison_Exp>;
   event_id?: InputMaybe<Numeric_Comparison_Exp>;
-  greetings?: InputMaybe<Greeting_Bool_Exp>;
-  greetingsCount?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
-  premium?: InputMaybe<Boolean_Comparison_Exp>;
+  ipfsHash?: InputMaybe<String_Comparison_Exp>;
+  user?: InputMaybe<String_Comparison_Exp>;
 };
 
-/** Ordering options when selecting data from "User". */
-export type User_Order_By = {
-  address?: InputMaybe<Order_By>;
+/** Ordering options when selecting data from "UploadData". */
+export type UploadData_Order_By = {
+  channel?: InputMaybe<Order_By>;
   db_write_timestamp?: InputMaybe<Order_By>;
   event_chain_id?: InputMaybe<Order_By>;
   event_id?: InputMaybe<Order_By>;
-  greetingsCount?: InputMaybe<Order_By>;
-  greetings_aggregate?: InputMaybe<Greeting_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
-  premium?: InputMaybe<Order_By>;
+  ipfsHash?: InputMaybe<Order_By>;
+  user?: InputMaybe<Order_By>;
 };
 
-/** select columns of table "User" */
-export enum User_Select_Column {
+/** select columns of table "UploadData" */
+export enum UploadData_Select_Column {
   /** column name */
-  Address = 'address',
+  Channel = 'channel',
   /** column name */
   DbWriteTimestamp = 'db_write_timestamp',
   /** column name */
@@ -315,30 +188,30 @@ export enum User_Select_Column {
   /** column name */
   EventId = 'event_id',
   /** column name */
-  GreetingsCount = 'greetingsCount',
-  /** column name */
   Id = 'id',
   /** column name */
-  Premium = 'premium'
+  IpfsHash = 'ipfsHash',
+  /** column name */
+  User = 'user'
 }
 
-/** Streaming cursor of the table "User" */
-export type User_Stream_Cursor_Input = {
+/** Streaming cursor of the table "UploadData" */
+export type UploadData_Stream_Cursor_Input = {
   /** Stream column input with initial value */
-  initial_value: User_Stream_Cursor_Value_Input;
+  initial_value: UploadData_Stream_Cursor_Value_Input;
   /** cursor ordering */
   ordering?: InputMaybe<Cursor_Ordering>;
 };
 
 /** Initial value of the column from where the streaming should start */
-export type User_Stream_Cursor_Value_Input = {
-  address?: InputMaybe<Scalars['String']['input']>;
+export type UploadData_Stream_Cursor_Value_Input = {
+  channel?: InputMaybe<Scalars['String']['input']>;
   db_write_timestamp?: InputMaybe<Scalars['timestamp']['input']>;
   event_chain_id?: InputMaybe<Scalars['Int']['input']>;
   event_id?: InputMaybe<Scalars['numeric']['input']>;
-  greetingsCount?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  premium?: InputMaybe<Scalars['Boolean']['input']>;
+  ipfsHash?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Boolean expression to compare columns of type "contract_type". All fields are combined with logical 'AND'. */
@@ -475,14 +348,14 @@ export enum Order_By {
 
 export type Query_Root = {
   __typename?: 'query_root';
-  /** fetch data from the table: "Greeting" */
-  Greeting: Array<Greeting>;
-  /** fetch data from the table: "Greeting" using primary key columns */
-  Greeting_by_pk?: Maybe<Greeting>;
-  /** fetch data from the table: "User" */
-  User: Array<User>;
-  /** fetch data from the table: "User" using primary key columns */
-  User_by_pk?: Maybe<User>;
+  /** fetch data from the table: "InteractData" */
+  InteractData: Array<InteractData>;
+  /** fetch data from the table: "InteractData" using primary key columns */
+  InteractData_by_pk?: Maybe<InteractData>;
+  /** fetch data from the table: "UploadData" */
+  UploadData: Array<UploadData>;
+  /** fetch data from the table: "UploadData" using primary key columns */
+  UploadData_by_pk?: Maybe<UploadData>;
   /** fetch data from the table: "dynamic_contract_registry" */
   dynamic_contract_registry: Array<Dynamic_Contract_Registry>;
   /** fetch data from the table: "dynamic_contract_registry" using primary key columns */
@@ -494,30 +367,30 @@ export type Query_Root = {
 };
 
 
-export type Query_RootGreetingArgs = {
-  distinct_on?: InputMaybe<Array<Greeting_Select_Column>>;
+export type Query_RootInteractDataArgs = {
+  distinct_on?: InputMaybe<Array<InteractData_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Greeting_Order_By>>;
-  where?: InputMaybe<Greeting_Bool_Exp>;
+  order_by?: InputMaybe<Array<InteractData_Order_By>>;
+  where?: InputMaybe<InteractData_Bool_Exp>;
 };
 
 
-export type Query_RootGreeting_By_PkArgs = {
+export type Query_RootInteractData_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
 
-export type Query_RootUserArgs = {
-  distinct_on?: InputMaybe<Array<User_Select_Column>>;
+export type Query_RootUploadDataArgs = {
+  distinct_on?: InputMaybe<Array<UploadData_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<User_Order_By>>;
-  where?: InputMaybe<User_Bool_Exp>;
+  order_by?: InputMaybe<Array<UploadData_Order_By>>;
+  where?: InputMaybe<UploadData_Bool_Exp>;
 };
 
 
-export type Query_RootUser_By_PkArgs = {
+export type Query_RootUploadData_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -663,18 +536,18 @@ export type Raw_Events_Stream_Cursor_Value_Input = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
-  /** fetch data from the table: "Greeting" */
-  Greeting: Array<Greeting>;
-  /** fetch data from the table: "Greeting" using primary key columns */
-  Greeting_by_pk?: Maybe<Greeting>;
-  /** fetch data from the table in a streaming manner: "Greeting" */
-  Greeting_stream: Array<Greeting>;
-  /** fetch data from the table: "User" */
-  User: Array<User>;
-  /** fetch data from the table: "User" using primary key columns */
-  User_by_pk?: Maybe<User>;
-  /** fetch data from the table in a streaming manner: "User" */
-  User_stream: Array<User>;
+  /** fetch data from the table: "InteractData" */
+  InteractData: Array<InteractData>;
+  /** fetch data from the table: "InteractData" using primary key columns */
+  InteractData_by_pk?: Maybe<InteractData>;
+  /** fetch data from the table in a streaming manner: "InteractData" */
+  InteractData_stream: Array<InteractData>;
+  /** fetch data from the table: "UploadData" */
+  UploadData: Array<UploadData>;
+  /** fetch data from the table: "UploadData" using primary key columns */
+  UploadData_by_pk?: Maybe<UploadData>;
+  /** fetch data from the table in a streaming manner: "UploadData" */
+  UploadData_stream: Array<UploadData>;
   /** fetch data from the table: "dynamic_contract_registry" */
   dynamic_contract_registry: Array<Dynamic_Contract_Registry>;
   /** fetch data from the table: "dynamic_contract_registry" using primary key columns */
@@ -690,45 +563,45 @@ export type Subscription_Root = {
 };
 
 
-export type Subscription_RootGreetingArgs = {
-  distinct_on?: InputMaybe<Array<Greeting_Select_Column>>;
+export type Subscription_RootInteractDataArgs = {
+  distinct_on?: InputMaybe<Array<InteractData_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<Greeting_Order_By>>;
-  where?: InputMaybe<Greeting_Bool_Exp>;
+  order_by?: InputMaybe<Array<InteractData_Order_By>>;
+  where?: InputMaybe<InteractData_Bool_Exp>;
 };
 
 
-export type Subscription_RootGreeting_By_PkArgs = {
+export type Subscription_RootInteractData_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
 
-export type Subscription_RootGreeting_StreamArgs = {
+export type Subscription_RootInteractData_StreamArgs = {
   batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<Greeting_Stream_Cursor_Input>>;
-  where?: InputMaybe<Greeting_Bool_Exp>;
+  cursor: Array<InputMaybe<InteractData_Stream_Cursor_Input>>;
+  where?: InputMaybe<InteractData_Bool_Exp>;
 };
 
 
-export type Subscription_RootUserArgs = {
-  distinct_on?: InputMaybe<Array<User_Select_Column>>;
+export type Subscription_RootUploadDataArgs = {
+  distinct_on?: InputMaybe<Array<UploadData_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  order_by?: InputMaybe<Array<User_Order_By>>;
-  where?: InputMaybe<User_Bool_Exp>;
+  order_by?: InputMaybe<Array<UploadData_Order_By>>;
+  where?: InputMaybe<UploadData_Bool_Exp>;
 };
 
 
-export type Subscription_RootUser_By_PkArgs = {
+export type Subscription_RootUploadData_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
 
-export type Subscription_RootUser_StreamArgs = {
+export type Subscription_RootUploadData_StreamArgs = {
   batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<User_Stream_Cursor_Input>>;
-  where?: InputMaybe<User_Bool_Exp>;
+  cursor: Array<InputMaybe<UploadData_Stream_Cursor_Input>>;
+  where?: InputMaybe<UploadData_Bool_Exp>;
 };
 
 
@@ -787,11 +660,3 @@ export type Timestamp_Comparison_Exp = {
   _neq?: InputMaybe<Scalars['timestamp']['input']>;
   _nin?: InputMaybe<Array<Scalars['timestamp']['input']>>;
 };
-
-export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetUsersQuery = { __typename?: 'query_root', User: Array<{ __typename?: 'User', id: string, address: string, greetingsCount: number, premium: boolean, greetings: Array<{ __typename?: 'Greeting', id: string, premium: boolean, greeting: string, value: any }> }> };
-
-
-export const GetUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"User"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"greetingsCount"}},{"kind":"Field","name":{"kind":"Name","value":"premium"}},{"kind":"Field","name":{"kind":"Name","value":"greetings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"premium"}},{"kind":"Field","name":{"kind":"Name","value":"greeting"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]} as unknown as DocumentNode<GetUsersQuery, GetUsersQueryVariables>;

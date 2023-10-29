@@ -59,7 +59,7 @@ app.get("/discord-oauth-callback", async (req, res) => {
     // 2. Uses the Discord Access Token to fetch the user profile
     const meData = await discord.getUserData(tokens);
     const userId = meData.user.id;
-    await storage.storeDiscordTokens(userId, {
+    storage.storeDiscordTokens(userId, {
       access_token: tokens.access_token,
       refresh_token: tokens.refresh_token,
       expires_at: Date.now() + tokens.expires_in * 1000,

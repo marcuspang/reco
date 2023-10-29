@@ -7,6 +7,8 @@ import {
 import { COMMANDS } from "../scripts/commands.js";
 import { getOAuthUrl } from "./discord.js";
 import { uploadEvent, getEvents, getSocialObjectsData } from "./lighthouse.js";
+import { interactContent, uploadData } from "./contracts.js";
+import { getDiscordUserAddress } from "./database.js";
 
 export const client = new Client({
   intents: [
@@ -46,8 +48,14 @@ export function startEvents() {
       message.channelId,
       message.guildId
     );
-    console.log("Event uploaded to IPFS:", result);
-    // TODO: upload Hash to contract
+
+    const address = await getDiscordUserAddress(message.author.username);
+    if (!address) {
+      console.log("User address not found");
+      return;
+    }
+
+    await uploadData(address, result.Hash, message.channelId);
   });
 
   client.on(Events.GuildMemberAdd, async (member) => {
@@ -80,7 +88,14 @@ export function startEvents() {
       message.guildId
     );
     console.log("Event uploaded to IPFS:", result);
-    // TODO: upload Hash to contract
+
+    const address = await getDiscordUserAddress(user.globalName);
+    if (!address) {
+      console.log("User address not found");
+      return;
+    }
+
+    await interactContent(address, result.Hash, "react");
   });
 
   client.on(Events.InteractionCreate, async (interaction) => {
@@ -136,7 +151,6 @@ export function startEvents() {
         break;
       }
       case COMMANDS.VERIFY_COMMAND: {
-        // get verification link
         const { state: _, url } = getOAuthUrl();
         await interaction.reply(url);
         break;

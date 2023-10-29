@@ -6,16 +6,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.send(400);
   }
 
-  const { username, discordId, address } = req.body;
-  if (!username || !discordId || !address) {
-    console.log({ username, discordId, address });
+  const { username, email, address } = req.body;
+  if (!username || !email || !address) {
+    console.log({ username, email, address });
     return res.send(400);
   }
-  const user = await prisma.discordUser.create({
+  const user = await prisma.user.update({
+    where: {
+      email,
+      name: username,
+    },
     data: {
-      username,
       address,
-      discordId,
     },
   });
   return res.status(200).json(user);
