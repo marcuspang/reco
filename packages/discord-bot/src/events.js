@@ -1,5 +1,6 @@
 import {
   Client,
+  EmbedBuilder,
   Events,
   GatewayIntentBits,
   MessageType,
@@ -155,7 +156,7 @@ export function startEvents() {
             break;
           case "dm_message":
             const newWelcomeMessage = options.getString("message");
-            setWelcomeMessage(
+            await setWelcomeMessage(
               interaction.guildId,
               interaction.channelId,
               newWelcomeMessage
@@ -214,7 +215,7 @@ export function startEvents() {
       case COMMANDS.GENERATE_COMMAND: {
         const subcommandName = options.getSubcommand();
         switch (subcommandName) {
-          case "summarise":
+          case "summarise": {
             const reply = await interaction.reply("This will take a while...");
 
             const summary = await getSocialObjectsData();
@@ -222,9 +223,37 @@ export function startEvents() {
             reply.delete();
             await interaction.followUp("Summary of the channel: " + summary);
             break;
-          case "itinerary":
-            await interaction.reply("Coming soon...");
+          }
+          case "itinerary": {
+            const reply = await interaction.reply("This will take a while...");
+
+            // FIXME: use IPFS data instead
+            const messages = await interaction.channel.messages.fetch();
+            const text = messages
+              .filter((m) => !m.author.bot)
+              .map((m) => m.content)
+              .join("\n\n");
+
+            const prompt =
+              "I want you to act as a tour guide for me. You should determine which location the users in the following messages are interested in. You should return an itinerary of the locations that they might be interested in, in the following format. <time in hours and minutes> : <location/activity> and provide social media links in the history if possible. Here are the messages, delimited with 2 line breaks\n" +
+              text;
+
+            const response =
+              (await callFlockModel(prompt ?? "")) || "No response";
+
+            reply.delete();
+            if (prompt) {
+              const embed = new EmbedBuilder()
+                .setColor("#25E29E")
+                .setTitle("Itinerary for " + interaction.channel.name)
+                .setDescription(response);
+              await interaction.followUp({ embeds: [embed] });
+            } else {
+              await interaction.followUp(response);
+            }
+
             break;
+          }
           case "governance":
             break;
           default:

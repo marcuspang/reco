@@ -8,8 +8,6 @@ export async function getDiscordUserAddress(name) {
   try {
     const res = await pool.query('SELECT * FROM "User" WHERE name=$1', [name]);
 
-    await pool.end();
-
     if (res.rows.length === 0) {
       return;
     }
