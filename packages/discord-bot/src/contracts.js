@@ -1,9 +1,9 @@
 import { Contract, Wallet, JsonRpcProvider } from "ethers";
-import abi from "../abi/Recommendoor.json" assert { type: "json" };
+import abi from "../abi/Recommendoor.js";
 
 const contract = new Contract(
   process.env.FLARE_RECOMMENDOOR_CONTRACT_ADDRESS,
-  abi.abi
+  abi
 );
 const provider = new JsonRpcProvider(
   "https://coston2-api.flare.network/ext/C/rpc"
