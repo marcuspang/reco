@@ -57,7 +57,7 @@ const Home: NextPage = () => {
             </a>
           </div>
           <div className="grid grid-cols-3 gap-x-6 gap-y-2 p-6">
-            <div className="card col-span-1 bg-white/5 shadow-xl hover:opacity-90 cursor-pointer">
+            <div className="card col-span-1 bg-white/5 shadow-xl transition-opacity hover:opacity-90 cursor-pointer">
               <figure>
                 <img
                   src="https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/032/655/large/6c927f67de0cadee42caab5dcc1979de/article-italy-tuscany-florence-duomo-panorama.jpg"
@@ -71,7 +71,7 @@ const Home: NextPage = () => {
                 <div className="card-actions justify-end"></div>
               </div>
             </div>
-            <div className="card col-span-1 bg-white/5 shadow-xl hover:opacity-90 cursor-pointer">
+            <div className="card col-span-1 bg-white/5 shadow-xl transition-opacity hover:opacity-90 cursor-pointer">
               <figure>
                 <img
                   src="https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/032/655/large/6c927f67de0cadee42caab5dcc1979de/article-italy-tuscany-florence-duomo-panorama.jpg"
@@ -85,7 +85,7 @@ const Home: NextPage = () => {
                 <div className="card-actions justify-end"></div>
               </div>
             </div>
-            <div className="card col-span-1 bg-white/5 shadow-xl hover:opacity-90 cursor-pointer">
+            <div className="card col-span-1 bg-white/5 shadow-xl transition-opacity hover:opacity-90 cursor-pointer">
               <figure>
                 <img
                   src="https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/032/655/large/6c927f67de0cadee42caab5dcc1979de/article-italy-tuscany-florence-duomo-panorama.jpg"
@@ -99,7 +99,7 @@ const Home: NextPage = () => {
                 <div className="card-actions justify-end"></div>
               </div>
             </div>
-            <div className="card col-span-1 bg-white/5 shadow-xl hover:opacity-90 cursor-pointer">
+            <div className="card col-span-1 bg-white/5 shadow-xl transition-opacity hover:opacity-90 cursor-pointer">
               <figure>
                 <img
                   src="https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/032/655/large/6c927f67de0cadee42caab5dcc1979de/article-italy-tuscany-florence-duomo-panorama.jpg"
