@@ -2,21 +2,16 @@ import {
   Client,
   Events,
   GatewayIntentBits,
-  IntentsBitField,
   MessageType,
   Partials,
 } from "discord.js";
-import {
-  getWelcomeMessage,
-  isWelcomeMessageEnabled,
-  setWelcomeMessage,
-} from "./storage.js";
 import { COMMANDS } from "../scripts/commands.js";
-import { getOAuthUrl } from "./discord.js";
-import { uploadEvent, getEvents, getSocialObjectsData } from "./lighthouse.js";
 import { interactContent, uploadData } from "./contracts.js";
 import { getDiscordUserAddress } from "./database.js";
+import { getOAuthUrl } from "./discord.js";
 import { callFlockModel } from "./flock.js";
+import { getEvents, getSocialObjectsData, uploadEvent } from "./lighthouse.js";
+import { getWelcomeMessage, setWelcomeMessage } from "./database.js";
 
 export const client = new Client({
   intents: [
@@ -26,7 +21,12 @@ export const client = new Client({
     GatewayIntentBits.DirectMessages,
     GatewayIntentBits.DirectMessageReactions,
   ],
-  partials: [Partials.Message, Partials.Reaction],
+  partials: [
+    Partials.Message,
+    Partials.Reaction,
+    Partials.GuildMember,
+    Partials.User,
+  ],
 });
 
 export function startEvents() {
@@ -45,9 +45,14 @@ export function startEvents() {
 
     if (message.author.bot) return;
     if (message.type === MessageType.UserJoin) {
-      if (!(await isWelcomeMessageEnabled(member.guild.id, channel.id))) return;
-      const welcomeMessage = getWelcomeMessage(member.guild.id, channel.id);
-      await channel.send(welcomeMessage);
+      const welcomeMessage = await getWelcomeMessage(
+        member.guild.id,
+        channel.id
+      );
+      if (!welcomeMessage || !welcomeMessage.isEnabled) {
+        return;
+      }
+      await channel.send(welcomeMessage.message);
       return;
     }
 
@@ -77,10 +82,11 @@ export function startEvents() {
     const channel = member.guild.channels.cache.find(
       (ch) => ch.name === "general"
     );
-    if (!channel) return;
-    if (!(await isWelcomeMessageEnabled(member.guild.id, channel.id))) return;
-    const welcomeMessage = getWelcomeMessage(member.guild.id, channel.id);
-    channel.send(welcomeMessage);
+    const welcomeMessage = await getWelcomeMessage(member.guild.id, channel.id);
+    if (!welcomeMessage || !welcomeMessage.isEnabled) {
+      return;
+    }
+    await channel.send(welcomeMessage.message);
   });
 
   client.on(Events.MessageReactionAdd, async (reaction, user) => {
@@ -127,17 +133,24 @@ export function startEvents() {
         const subcommandName = options.getSubcommand();
         switch (subcommandName) {
           case "dm_prompt":
-            const isEnabled = await isWelcomeMessageEnabled(
+            const welcomeMessage = await getWelcomeMessage(
               interaction.guildId,
               interaction.channelId
             );
-            setWelcomeMessage(
+            if (!welcomeMessage) {
+              await interaction.reply("DM prompt is not set");
+              break;
+            }
+            await setWelcomeMessage(
               interaction.guildId,
               interaction.channelId,
-              !isEnabled
+              welcomeMessage.message,
+              !welcomeMessage.isEnabled
             );
             await interaction.reply(
-              `DM prompt is now ${!isEnabled ? "`enabled`" : "`disabled`"}`
+              `DM prompt is now ${
+                !welcomeMessage.isEnabled ? "`enabled`" : "`disabled`"
+              }`
             );
             break;
           case "dm_message":
@@ -152,7 +165,23 @@ export function startEvents() {
             );
             break;
           case "role":
-            await interaction.reply("Role");
+            const user = options.getUser("user");
+            const role = options.getRole("role");
+            if (!role) {
+              await interaction.reply(`Role "${role}" not found`);
+              return;
+            }
+            const member = interaction.guild.members.cache.get(user.id);
+            console.log({ member });
+            if (!member) {
+              await interaction.reply(`User "${user.tag}" not found`);
+              return;
+            }
+
+            await member.roles.add(role);
+            await interaction.reply(
+              `Role "${role.name}" has been added to user "${user.tag}"`
+            );
             break;
           default:
             await interaction.reply("Unknown subcommand");
@@ -161,8 +190,14 @@ export function startEvents() {
         break;
       }
       case COMMANDS.INVITE_COMMAND: {
-        const { url } = getOAuthUrl();
-        await interaction.reply("Click the link to invite me: " + url);
+        await interaction.reply(
+          "Click the link to invite me to your server" +
+            `https://discord.com/api/oauth2/authorize?client_id=${
+              process.env.DISCORD_CLIENT_ID
+            }&permissions=1085620615232&redirect_uri=${encodeURIComponent(
+              process.env.DISCORD_REDIRECT_URI
+            )}&response_type=code&scope=guilds%20activities.read%20applications.entitlements%20bot%20guilds.join`
+        );
         break;
       }
       case COMMANDS.VERIFY_COMMAND: {
@@ -180,18 +215,20 @@ export function startEvents() {
         const subcommandName = options.getSubcommand();
         switch (subcommandName) {
           case "summarise":
-            await interaction.reply("This will take a while...");
+            const reply = await interaction.reply("This will take a while...");
 
             const summary = await getSocialObjectsData();
 
+            reply.delete();
             await interaction.followUp("Summary of the channel: " + summary);
             break;
           case "itinerary":
+            await interaction.reply("Coming soon...");
             break;
           case "governance":
             break;
           default:
-            await interaction.reply("Unknown subcommand");
+            await interaction.reply("Coming soon...");
             break;
         }
         break;

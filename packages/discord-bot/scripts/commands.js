@@ -35,13 +35,13 @@ const CONFIGURE_COMMAND = {
       description: "Change the role given to verified members",
       options: [
         {
-          type: 6, // User option
+          type: 6,
           name: "user",
           description: "Select a user",
           required: true,
         },
         {
-          type: 3,
+          type: 8,
           name: "role",
           description: "Enter the role name",
           required: true,
@@ -110,12 +110,14 @@ const GENERATE_COMMAND = {
 const PROMPT_COMMAND = {
   type: 1,
   name: COMMANDS.PROMPT_COMMAND,
-  description: "Generate content with the help of a decentralized AI model.",
+  description:
+    "[DEBUG] Generate content with the help of a decentralized AI model.",
   options: [
     {
       type: 3,
       name: "prompt",
       description: "Enter the prompt text",
+      required: true,
     },
   ],
 };
@@ -123,12 +125,12 @@ const PROMPT_COMMAND = {
 const LIST_EVENTS_COMMAND = {
   type: 1,
   name: COMMANDS.LIST_EVENTS_COMMAND,
-  description: "List all events for the current channel.",
+  description: "[DEBUG] List all events for the current channel.",
 };
 
 const TEST_COMMAND = {
   name: COMMANDS.TEST_COMMAND,
-  description: "Basic command",
+  description: "[DEBUG] Basic command",
   type: 1,
 };
 

@@ -49,10 +49,10 @@ export async function uploadEvent(event) {
 }
 
 export async function getEvents(channelId) {
-  // Lighthouse query for encrypted data to be decrypted
+  /// Lighthouse query for encrypted data to be decrypted
   // return (await lighthouse.getUploads(process.env.LIGHTHOUSE_API_KEY)).data;
 
-  // Envio graphql query for hashes
+  /// Envio graphql query for hashes
   /**
   const response = await fetch(process.env.GRAPHQL_URL, {
     method: "POST",
@@ -75,10 +75,15 @@ export async function getEvents(channelId) {
    * 
    */
 
-  // hardcoded hashes
-  return {
-    fileList: [],
-  };
+  /// just get hashes from block explorer
+  const response = await fetch(
+    `https://coston2-explorer.flare.network/api?module=logs&action=getLogs&fromBlock=6680368&toBlock=latest&address=0xe36b6801d5F5248f4bDB239b6abC340EdBd48c9D&topic0=0xe65cd2b9799ec1eeb16eda5cbc79bfa64779d006411bec2dc2849b89a4b3f398&topic1=0x4d9223e988624664a5b48e90ae2be1acf27514bb45699666c70fbf0677db982b&topic0_1_opr=or`
+  );
+  if (!response.ok) {
+    throw new Error("Error querying station events " + channelId);
+  }
+  const data = await response.json();
+  return data;
 }
 
 export async function getSocialObjectsData() {
