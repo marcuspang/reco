@@ -30,9 +30,9 @@ networks:
         handler: ./src/EventHandlers.ts
         abi_file_path: ./abi/Recommendoor.json
         events:
-          - event: "InteractData(address user, string ipfsHash, string action)"
+          - event: "InteractData(address,string,string)"
             requiredEntities:
               - name: InteractData
-          - event: "UploadData(address user, string ipfsHash, string channel)"
+          - event: "UploadData(address,string,string)"
             requiredEntities:
               - name: UploadData
