@@ -23,7 +23,7 @@ networks:
       url: https://coston2-api.flare.network/ext/C/rpc
       unstable__sync_config:
         initial_block_interval: 1
-        interval_ceiling: 1
+        interval_ceiling: 2
     contracts:
       - name: Recommendoor
         address: "0xe36b6801d5F5248f4bDB239b6abC340EdBd48c9D"
