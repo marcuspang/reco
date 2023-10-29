@@ -199,9 +199,11 @@ export function startEvents() {
       // DEBUG COMMANDS
       case COMMANDS.PROMPT_COMMAND: {
         const prompt = options.getString("prompt");
-        await interaction.reply("Awaiting for response...");
+        const reply = await interaction.reply("Awaiting for response...");
 
         const response = (await callFlockModel(prompt ?? "")) || "No response";
+
+        await reply.delete();
         await interaction.followUp(response);
         break;
       }
