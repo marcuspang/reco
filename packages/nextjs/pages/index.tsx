@@ -6,7 +6,7 @@ import { cn } from "~~/utils/cn";
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(1);
 
   return (
     <>
@@ -57,59 +57,59 @@ const Home: NextPage = () => {
             </a>
           </div>
           <div className="grid grid-cols-3 gap-x-6 gap-y-2 p-6">
-            <div className="card col-span-1 bg-white/5 shadow-xl">
+            <div className="card col-span-1 bg-white/5 shadow-xl hover:opacity-90 cursor-pointer">
               <figure>
                 <img
-                  src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+                  src="https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/032/655/large/6c927f67de0cadee42caab5dcc1979de/article-italy-tuscany-florence-duomo-panorama.jpg"
                   className="w-full h-[150px]"
                   alt="Shoes"
                 />
               </figure>
               <div className="card-body p-4">
                 <h2 className="card-title font-semibold mb-0">Trip to Florence</h2>
-                <p className="my-2 text-white/70">🍝Day Trip to Florence: Explore the Best in One Day</p>
+                <p className="my-2 text-white/70">🍝 Day Trip to Florence: Explore the Best in One Day</p>
                 <div className="card-actions justify-end"></div>
               </div>
             </div>
-            <div className="card col-span-1 bg-white/5 shadow-xl">
+            <div className="card col-span-1 bg-white/5 shadow-xl hover:opacity-90 cursor-pointer">
               <figure>
                 <img
-                  src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+                  src="https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/032/655/large/6c927f67de0cadee42caab5dcc1979de/article-italy-tuscany-florence-duomo-panorama.jpg"
                   className="w-full h-[150px]"
                   alt="Shoes"
                 />
               </figure>
               <div className="card-body p-4">
                 <h2 className="card-title font-semibold mb-0">Trip to Florence</h2>
-                <p className="my-2 text-white/70">🍝Day Trip to Florence: Explore the Best in One Day</p>
+                <p className="my-2 text-white/70">🍝 Day Trip to Florence: Explore the Best in One Day</p>
                 <div className="card-actions justify-end"></div>
               </div>
             </div>
-            <div className="card col-span-1 bg-white/5 shadow-xl">
+            <div className="card col-span-1 bg-white/5 shadow-xl hover:opacity-90 cursor-pointer">
               <figure>
                 <img
-                  src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+                  src="https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/032/655/large/6c927f67de0cadee42caab5dcc1979de/article-italy-tuscany-florence-duomo-panorama.jpg"
                   className="w-full h-[150px]"
                   alt="Shoes"
                 />
               </figure>
               <div className="card-body p-4">
                 <h2 className="card-title font-semibold mb-0">Trip to Florence</h2>
-                <p className="my-2 text-white/70">🍝Day Trip to Florence: Explore the Best in One Day</p>
+                <p className="my-2 text-white/70">🍝 Day Trip to Florence: Explore the Best in One Day</p>
                 <div className="card-actions justify-end"></div>
               </div>
             </div>
-            <div className="card col-span-1 bg-white/5 shadow-xl">
+            <div className="card col-span-1 bg-white/5 shadow-xl hover:opacity-90 cursor-pointer">
               <figure>
                 <img
-                  src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+                  src="https://d3dqioy2sca31t.cloudfront.net/Projects/cms/production/000/032/655/large/6c927f67de0cadee42caab5dcc1979de/article-italy-tuscany-florence-duomo-panorama.jpg"
                   className="w-full h-[150px]"
                   alt="Shoes"
                 />
               </figure>
               <div className="card-body p-4">
                 <h2 className="card-title font-semibold mb-0">Trip to Florence</h2>
-                <p className="my-2 text-white/70">🍝Day Trip to Florence: Explore the Best in One Day</p>
+                <p className="my-2 text-white/70">🍝 Day Trip to Florence: Explore the Best in One Day</p>
                 <div className="card-actions justify-end"></div>
               </div>
             </div>
