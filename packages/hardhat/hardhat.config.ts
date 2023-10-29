@@ -171,10 +171,10 @@ const config: HardhatUserConfig = {
       sepolia: etherscanApiKey,
       goerli: etherscanApiKey,
       mainnet: etherscanApiKey,
-      coston: `${FLARESCAN_API_KEY}`,
-      coston2: `${FLARESCAN_API_KEY}`,
-      songbird: `${FLARESCAN_API_KEY}`,
-      flare: `${FLARESCAN_API_KEY}`,
+      coston: `placeholder`,
+      coston2: `placeholder`,
+      songbird: `placeholder`,
+      flare: `placeholder}`,
     },
     customChains: [
       {

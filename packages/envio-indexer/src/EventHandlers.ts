@@ -1,38 +1,32 @@
 import {
-  GreetingContract_GreetingChange_loader,
-  GreetingContract_GreetingChange_handler,
+  RecommendoorContract_InteractData_handler,
+  RecommendoorContract_InteractData_loader,
+  RecommendoorContract_UploadData_handler,
+  RecommendoorContract_UploadData_loader,
 } from "../generated/src/Handlers.gen";
 
-import { GreetingEntity, UserEntity } from "../generated/src/Types.gen";
-
-GreetingContract_GreetingChange_loader(({ event, context }) => {
-  context.User.load(event.params.greetingSetter);
+RecommendoorContract_UploadData_loader(({ event, context }) => {
+  context.UploadData.load(event.params.user);
 });
 
-GreetingContract_GreetingChange_handler(({ event, context }) => {
-  let currentUser = context.User.get(event.params.greetingSetter);
-
-  let userEntity: UserEntity = currentUser
-    ? {
-        ...currentUser,
-        greetingsCount: currentUser.greetingsCount + 1,
-        premium: currentUser.premium || event.params.premium,
-      }
-    : {
-        id: event.params.greetingSetter,
-        address: event.params.greetingSetter,
-        greetingsCount: 1,
-        premium: event.params.premium,
-      };
-
-  let greetingEntity: GreetingEntity = {
+RecommendoorContract_UploadData_handler(({ event, context }) => {
+  context.UploadData.set({
+    user: event.params.user,
+    ipfsHash: event.params.ipfsHash,
+    channel: event.params.channel,
     id: event.transactionHash,
-    user: event.params.greetingSetter,
-    value: event.params.value,
-    greeting: event.params.newGreeting,
-    premium: event.params.premium,
-  };
+  });
+});
 
-  context.Greeting.set(greetingEntity);
-  context.User.set(userEntity);
+RecommendoorContract_InteractData_loader(({ event, context }) => {
+  context.InteractData.load(event.params.user);
+});
+
+RecommendoorContract_InteractData_handler(({ event, context }) => {
+  context.InteractData.set({
+    user: event.params.user,
+    ipfsHash: event.params.ipfsHash,
+    action: event.params.action,
+    id: event.transactionHash,
+  });
 });

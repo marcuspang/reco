@@ -1,5 +1,5 @@
 import lighthouse from "@lighthouse-web3/sdk";
-import { Contract, Wallet, JsonRpcProvider } from "ethers";
+import { Wallet, JsonRpcProvider } from "ethers";
 import { createHelia } from "helia";
 import { strings } from "@helia/strings";
 import { CID } from "multiformats/cid";
@@ -17,23 +17,26 @@ const wallet = new Wallet(process.env.PRIVATE_KEY, provider);
 
 export async function uploadEvent(event) {
   try {
-    const messageRequested = await lighthouse.getAuthMessage(publicKey);
     const message = JSON.stringify(event);
-    const signedMessage = await wallet.signMessage(
-      messageRequested.data.message
-    );
-    const response = await lighthouse.textUploadEncrypted(
+    if (process.env.ENCRYPT_SOCIAL_EVENTS) {
+      const messageRequested = await lighthouse.getAuthMessage(publicKey);
+      const signedMessage = await wallet.signMessage(
+        messageRequested.data.message
+      );
+      const response = await lighthouse.textUploadEncrypted(
+        message,
+        process.env.LIGHTHOUSE_API_KEY,
+        publicKey,
+        signedMessage,
+        `recommendoor/${event.guildId}/${event.channelId}/${event.author}`
+      );
+      return response;
+    }
+    const response = await lighthouse.uploadText(
       message,
       process.env.LIGHTHOUSE_API_KEY,
-      publicKey,
-      signedMessage,
       `recommendoor/${event.guildId}/${event.channelId}/${event.author}`
     );
-    // const response = await lighthouse.uploadText(
-    //   message,
-    //   process.env.LIGHTHOUSE_API_KEY,
-    //   `recommendoor/${event.guildId}/${event.channelId}/${event.author}`
-    // );
 
     // {Name: string; Hash: string; Size: string; }
     return response.data;

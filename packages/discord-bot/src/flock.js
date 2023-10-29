@@ -3,7 +3,7 @@ import "dotenv/config";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-  baseURL: process.env.FLOCK_MODEL_URL, // defaults to https://api.openai.com/v1
+  baseURL: process.env.FLOCK_MODEL_URL,
 });
 
 const TOKEN_LIMIT = 4096;
@@ -32,12 +32,12 @@ function splitAndGeneratePrompts(largePrompt) {
   return promptChunks;
 }
 
-export async function callFlockModel(prompt) {
-  const promptChunks = splitAndGeneratePrompts(prompt);
+export async function callFlockModel(initialPrompt) {
+  const promptChunks = splitAndGeneratePrompts(initialPrompt);
   let combinedResult = [];
   console.log("Prompt:", promptChunks[0]);
 
-  const response = await client.completions.create({
+  const response = await openai.completions.create({
     messages: [
       {
         role: "user",
@@ -45,37 +45,34 @@ export async function callFlockModel(prompt) {
       },
     ],
     model: "hackathon-chat",
-    max_tokens: 10, // Set an appropriate value here for the summary length.
+    max_tokens: 10,
   });
 
   console.log("Instruction response:", response.choices[0].text);
 
   for (const prompt of promptChunks) {
     // Check if adding the next input would exceed the token limit.
-    if (combinedPrompt.length + prompt.length < tokenLimit) {
+    if (combinedPrompt.length + prompt.length < TOKEN_LIMIT) {
       combinedPrompt += prompt + " ";
     } else {
-      // If adding the next input exceeds the token limit, generate a summary with the current content.
-      const response = await client.completions.create({
+      const response = await openai.completions.create({
         messages: [{ role: "user", content: prompt }],
         model: "hackathon-chat",
-        max_tokens: 50, // Set an appropriate value here for the summary length.
+        max_tokens: 50,
       });
 
-      // Process the response here, or store it in an array if needed.
       combinedResult.push(response.choices[0].text);
 
-      // Reset the combined prompt to the current input string.
       combinedPrompt = prompt + " ";
     }
   }
 
   // Generate a summary from any remaining content.
   if (combinedPrompt) {
-    const response = await client.completions.create({
-      engine: "text-davinci-002", // Specify your engine.
+    const response = await openai.completions.create({
+      model: "hackathon-chat",
       prompt: combinedPrompt,
-      max_tokens: 50, // Set an appropriate value here for the summary length.
+      max_tokens: 50,
     });
 
     // Process the final response or add it to the array if needed.

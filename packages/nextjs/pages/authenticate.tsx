@@ -76,6 +76,7 @@ const Authenticate: NextPage = () => {
       });
     }
   }, [address, dbUser, discordUser, mutateAsync, queryClient]);
+  console.log(discordUser, dbUser, address);
 
   if (!session) {
     return (

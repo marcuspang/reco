@@ -14,6 +14,7 @@ export const client = new Client({
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.DirectMessageReactions,
   ],
   partials: [Partials.Message, Partials.Reaction],
 });
@@ -57,6 +58,29 @@ export function startEvents() {
     if (!(await isWelcomeMessageEnabled(member.guild.id, channel.id))) return;
     const welcomeMessage = getWelcomeMessage(member.guild.id, channel.id);
     channel.send(welcomeMessage);
+  });
+
+  client.on(Events.MessageReactionAdd, async (reaction, user) => {
+    console.log({ reaction, user });
+    console.log(
+      `Reaction ${reaction.emoji.name} added by ${user.tag} to message ${reaction.message.id}`
+    );
+
+    if (message.author.bot) return;
+    const messageStruct = {
+      content: `${user.tag} reacted with ${reaction.emoji.name} to message ${reaction.message}`,
+      author: message.author.id,
+      channelId: message.channelId,
+      guildId: message.guildId,
+    };
+
+    const result = await uploadEvent(
+      messageStruct,
+      message.channelId,
+      message.guildId
+    );
+    console.log("Event uploaded to IPFS:", result);
+    // TODO: upload Hash to contract
   });
 
   client.on(Events.InteractionCreate, async (interaction) => {

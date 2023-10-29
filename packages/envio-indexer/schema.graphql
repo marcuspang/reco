@@ -1,15 +1,13 @@
-type Greeting @entity {
+type InteractData @entity {
   id: ID!
   user: String!
-  greeting: String!
-  value: BigInt!
-  premium: Boolean!
+  ipfsHash: String!
+  action: String!
 }
 
-type User @entity {
+type UploadData @entity {
   id: ID!
-  address: String!
-  greetings: [Greeting!]! @derivedFrom(field: "user")
-  greetingsCount: Int!
-  premium: Boolean!
+  user: String!
+  ipfsHash: String!
+  channel: String!
 }

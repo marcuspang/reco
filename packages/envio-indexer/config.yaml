@@ -1,15 +1,19 @@
-name: YourContract
-description: YourContract indexer
+name: Recommendoor
+description: Recommendoor indexer
 networks:
-  - id: 31337 #Hardhat
-    start_block: 0
+  - id: 114 # coston2
+    start_block: 6680369
     rpc_config:
-      url: http://127.0.0.1:8545 #rpc url for local hardhat network
+      url: https://coston2-api.flare.network/ext/C/rpc
     contracts:
-      - name: Greeting
-        address: "0x5fbdb2315678afecb367f032d93f642f64180aa3"
-        handler: src/EventHandlers.ts
+      - name: Recommendoor
+        address: "0xe36b6801d5F5248f4bDB239b6abC340EdBd48c9D"
+        handler: ./src/EventHandlers.ts
+        abi_file_path: ./abi/Recommendoor.json
         events:
-          - event: "GreetingChange(address indexed greetingSetter, string newGreeting, bool premium, uint256 value)"
+          - event: "InteractData(address user, string ipfsHash, string action)"
             requiredEntities:
-              - name: User
+              - name: InteractData
+          - event: "UploadData(address user, string ipfsHash, string channel)"
+            requiredEntities:
+              - name: UploadData

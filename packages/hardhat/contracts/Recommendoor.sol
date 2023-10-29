@@ -2,8 +2,8 @@
 pragma solidity >=0.8.0 <0.9.0;
 
 contract Recommendoor {
-	event UploadData(address user, string ipfsHash, string channel);
-	event InteractData(address user, string ipfsHash, string action);
+	event UploadData(address indexed user, string ipfsHash, string channel);
+	event InteractData(address indexed user, string ipfsHash, string action);
 
 	function uploadData(
 		address user,
