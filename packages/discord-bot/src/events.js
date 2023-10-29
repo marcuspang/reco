@@ -1,4 +1,11 @@
-import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
+import {
+  Client,
+  Events,
+  GatewayIntentBits,
+  IntentsBitField,
+  MessageType,
+  Partials,
+} from "discord.js";
 import {
   getWelcomeMessage,
   isWelcomeMessageEnabled,
@@ -9,6 +16,7 @@ import { getOAuthUrl } from "./discord.js";
 import { uploadEvent, getEvents, getSocialObjectsData } from "./lighthouse.js";
 import { interactContent, uploadData } from "./contracts.js";
 import { getDiscordUserAddress } from "./database.js";
+import { callFlockModel } from "./flock.js";
 
 export const client = new Client({
   intents: [
@@ -36,6 +44,13 @@ export function startEvents() {
     );
 
     if (message.author.bot) return;
+    if (message.type === MessageType.UserJoin) {
+      if (!(await isWelcomeMessageEnabled(member.guild.id, channel.id))) return;
+      const welcomeMessage = getWelcomeMessage(member.guild.id, channel.id);
+      await channel.send(welcomeMessage);
+      return;
+    }
+
     const messageStruct = {
       content: message.content,
       author: message.author.id,
@@ -69,7 +84,6 @@ export function startEvents() {
   });
 
   client.on(Events.MessageReactionAdd, async (reaction, user) => {
-    console.log({ reaction, user });
     console.log(
       `Reaction ${reaction.emoji.name} added by ${user.tag} to message ${reaction.message.id}`
     );
@@ -147,7 +161,8 @@ export function startEvents() {
         break;
       }
       case COMMANDS.INVITE_COMMAND: {
-        await interaction.reply("Invite command");
+        const { url } = getOAuthUrl();
+        await interaction.reply("Click the link to invite me: " + url);
         break;
       }
       case COMMANDS.VERIFY_COMMAND: {
@@ -165,8 +180,11 @@ export function startEvents() {
         const subcommandName = options.getSubcommand();
         switch (subcommandName) {
           case "summarise":
+            await interaction.reply("This will take a while...");
+
             const summary = await getSocialObjectsData();
-            await interaction.reply("Summary of the channel: " + summary);
+
+            await interaction.followUp("Summary of the channel: " + summary);
             break;
           case "itinerary":
             break;
@@ -179,6 +197,14 @@ export function startEvents() {
         break;
       }
       // DEBUG COMMANDS
+      case COMMANDS.PROMPT_COMMAND: {
+        const prompt = options.getString("prompt");
+        await interaction.reply("Awaiting for response...");
+
+        const response = (await callFlockModel(prompt ?? "")) || "No response";
+        await interaction.followUp(response);
+        break;
+      }
       case COMMANDS.LIST_EVENTS_COMMAND: {
         const events = await getEvents();
         const eventCids = events.fileList.map((event) => event.cid);

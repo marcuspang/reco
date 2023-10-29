@@ -10,6 +10,7 @@ export const COMMANDS = {
   SUPPORT_COMMAND: "support",
   LIST_EVENTS_COMMAND: "list_events",
   GENERATE_COMMAND: "generate",
+  PROMPT_COMMAND: "prompt",
 };
 
 const INVITE_COMMAND = {
@@ -51,14 +52,6 @@ const CONFIGURE_COMMAND = {
       type: 1,
       name: "dm_prompt",
       description: "Enable or disable message sent to new members",
-      options: [
-        {
-          type: 3,
-          name: "prompt",
-          description: "Enter the DM prompt text",
-          required: true,
-        },
-      ],
     },
     {
       type: 1,
@@ -114,6 +107,18 @@ const GENERATE_COMMAND = {
 };
 
 // DEBUG ONLY COMMANDS
+const PROMPT_COMMAND = {
+  type: 1,
+  name: COMMANDS.PROMPT_COMMAND,
+  description: "Generate content with the help of a decentralized AI model.",
+  options: [
+    {
+      type: 3,
+      name: "prompt",
+      description: "Enter the prompt text",
+    },
+  ],
+};
 
 const LIST_EVENTS_COMMAND = {
   type: 1,
@@ -136,6 +141,7 @@ const ALL_COMMANDS = [
   SUPPORT_COMMAND,
   LIST_EVENTS_COMMAND,
   GENERATE_COMMAND,
+  PROMPT_COMMAND,
 ];
 
 // uncomment this to update bot commands

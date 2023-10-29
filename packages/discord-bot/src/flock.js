@@ -32,54 +32,40 @@ function splitAndGeneratePrompts(largePrompt) {
   return promptChunks;
 }
 
-export async function callFlockModel(initialPrompt) {
-  const promptChunks = splitAndGeneratePrompts(initialPrompt);
-  let combinedResult = [];
-  console.log("Prompt:", promptChunks[0]);
-
-  const response = await openai.completions.create({
+export async function callFlockModel(prompt) {
+  const response = await openai.chat.completions.create({
     messages: [
       {
         role: "user",
-        content: `I will be sending you ${promptChunks.length} messages. I want you to remember all of the chunk of social media data passed to you, in the form of { author: string; content: string; }. I want you to act as a objective member of the community, and use a friendly tone to summarize the \`content\` field in each JSON-stringified object after all the messages have been sent. Do not reply to any of the messages, until all the messages have been sent. If you understand and agree to the message, reply with "Yes".`,
+        content: prompt,
       },
     ],
     model: "hackathon-chat",
-    max_tokens: 10,
   });
 
-  console.log("Instruction response:", response.choices[0].text);
+  return response.choices[0].message.content;
+}
 
-  for (const prompt of promptChunks) {
-    // Check if adding the next input would exceed the token limit.
-    if (combinedPrompt.length + prompt.length < TOKEN_LIMIT) {
-      combinedPrompt += prompt + " ";
-    } else {
-      const response = await openai.completions.create({
-        messages: [{ role: "user", content: prompt }],
-        model: "hackathon-chat",
-        max_tokens: 50,
-      });
+export async function callFlockModelWithChunkSplitting(initialPrompt) {
+  const promptChunks = splitAndGeneratePrompts(initialPrompt).map((chunk) => ({
+    role: "user",
+    content: chunk,
+  }));
 
-      combinedResult.push(response.choices[0].text);
+  const response = await openai.chat.completions.create({
+    messages: [
+      {
+        role: "user",
+        content: `I will be sending you ${
+          promptChunks.length + 1
+        } messages. I want you to remember all of the chunk of social media data passed to you, in the form of { author: string; content: string; }. I want you to act as a objective member of the community, and use a friendly tone to summarize the \`content\` field in each JSON-stringified object after all the messages have been sent. Do not reply to any of the messages, until all the messages have been sent. If you understand and agree to the message, reply with "Yes".`,
+      },
+      ...promptChunks,
+    ],
+    model: "hackathon-chat",
+  });
 
-      combinedPrompt = prompt + " ";
-    }
-  }
-
-  // Generate a summary from any remaining content.
-  if (combinedPrompt) {
-    const response = await openai.completions.create({
-      model: "hackathon-chat",
-      prompt: combinedPrompt,
-      max_tokens: 50,
-    });
-
-    // Process the final response or add it to the array if needed.
-    combinedResult.push(response.choices[0].text);
-  }
-
-  return combinedResult;
+  return response.choices[0].message.content;
 }
 
 /**

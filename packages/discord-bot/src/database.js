@@ -6,11 +6,9 @@ const pool = new pg.Pool({
 
 export async function getDiscordUserAddress(name) {
   try {
-    console.log("input", name);
     const res = await pool.query('SELECT * FROM "User" WHERE name=$1', [name]);
 
     await pool.end();
-    console.log(JSON.stringify(res.rows));
 
     if (res.rows.length === 0) {
       return;
