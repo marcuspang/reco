@@ -21,7 +21,7 @@ Social Objects - refers to any social event / activity, e.g. likes, shares, comm
 
 ## How it works
 
-### Onboarding
+### Onboarding 
 
 - after adding Reco bot to a social media channel (e.g. Discord), the server admin creates a linked role that comes with the bot
 - this linked role requires Rarimo's Proof of Humanity verification, which redirects the user to our frontend
@@ -34,7 +34,7 @@ Social Objects - refers to any social event / activity, e.g. likes, shares, comm
 ### Social Objects
 
 - Reco bot tracks social objects on social media channels (e.g. messages, likes, shares, etc. on Discord) and uploads them to IPFS (encrypted with Lighthouse)
-- Reco bot then sends the IPFS hash to the smart contract, which emits an event that the envio's indexer stores in the database
+- Reco bot then sends the IPFS hash to the smart contract deployed on Flare, which emits an event that the envio's indexer stores in the database
 - This social object is tied to the user, and can be used for social curation, e.g. likes, shares, comments, etc.
 
 ### Content Curation
