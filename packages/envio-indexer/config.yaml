@@ -1,35 +1,39 @@
 name: Recommendoor
 description: Recommendoor indexer
 networks:
-  - id: 31337 # hardhat
-    start_block: 0
-    rpc_config:
-      url: http://127.0.0.1:8545
-    contracts:
-      - name: Recommendoor
-        address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
-        handler: ./src/EventHandlers.ts
-        abi_file_path: ./abi/Recommendoor.json
-        events:
-          - event: "InteractData(address,string,string)"
-            requiredEntities:
-              - name: InteractData
-          - event: "UploadData(address,string,string)"
-            requiredEntities:
-              - name: UploadData
-  # - id: 114 # coston2
-  #   start_block: 6680369
+  # - id: 31337 # hardhat
+  #   start_block: 0
   #   rpc_config:
-  #     url: https://coston2-api.flare.network/ext/C/rpc
+  #     url: http://127.0.0.1:8545
   #   contracts:
-  #     - name: Recommendoor
-  #       address: "0xe36b6801d5F5248f4bDB239b6abC340EdBd48c9D"
+  #     - name: RecommendoorLocal
+  #       address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
   #       handler: ./src/EventHandlers.ts
   #       abi_file_path: ./abi/Recommendoor.json
   #       events:
-  #         - event: "InteractData(address user, string ipfsHash, string action)"
+  #         - event: "InteractData(address,string,string)"
   #           requiredEntities:
   #             - name: InteractData
-  #         - event: "UploadData(address user, string ipfsHash, string channel)"
+  #         - event: "UploadData(address,string,string)"
   #           requiredEntities:
   #             - name: UploadData
+  - id: 114 # coston2
+    start_block: 6680369
+    rpc_config:
+      url: https://coston2-api.flare.network/ext/C/rpc
+      unstable__sync_config:
+        initial_block_interval: 1
+        interval_ceiling: 1
+        acceleration_additive: 0
+    contracts:
+      - name: Recommendoor
+        address: "0xe36b6801d5F5248f4bDB239b6abC340EdBd48c9D"
+        handler: ./src/EventHandlers.ts
+        abi_file_path: ./abi/Recommendoor.json
+        events:
+          - event: "InteractData(address user, string ipfsHash, string action)"
+            requiredEntities:
+              - name: InteractData
+          - event: "UploadData(address user, string ipfsHash, string channel)"
+            requiredEntities:
+              - name: UploadData
