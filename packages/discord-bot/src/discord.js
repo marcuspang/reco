@@ -23,9 +23,10 @@ export function getOAuthUrl() {
   url.searchParams.set("state", process.env.COOKIE_SECRET);
   url.searchParams.set(
     "scope",
-    "guilds messages.read activities.read applications.commands guilds.join bot applications.entitlements applications.builds.read role_connections.write"
+    "guilds guilds.join messages.read applications.commands bot applications.entitlements"
   );
   url.searchParams.set("prompt", "consent");
+  console.log(url.toString());
   return { state: process.env.COOKIE_SECRET, url: url.toString() };
 }
 
@@ -42,6 +43,8 @@ export async function getOAuthTokens(code) {
     code,
     redirect_uri: process.env.DISCORD_REDIRECT_URI,
   });
+
+  console.log(body.toString());
 
   const response = await fetch(url, {
     body,

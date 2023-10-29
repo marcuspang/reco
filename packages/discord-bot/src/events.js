@@ -1,4 +1,7 @@
 import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
   Client,
   EmbedBuilder,
   Events,
@@ -47,7 +50,7 @@ export function startEvents() {
     if (message.author.bot) return;
     if (message.type === MessageType.UserJoin) {
       const welcomeMessage = await getWelcomeMessage(
-        member.guild.id,
+        message.guild.id,
         channel.id
       );
       if (!welcomeMessage || !welcomeMessage.isEnabled) {
@@ -173,7 +176,6 @@ export function startEvents() {
               return;
             }
             const member = interaction.guild.members.cache.get(user.id);
-            console.log({ member });
             if (!member) {
               await interaction.reply(`User "${user.tag}" not found`);
               return;
@@ -218,19 +220,64 @@ export function startEvents() {
           case "summarise": {
             const reply = await interaction.reply("This will take a while...");
 
-            const summary = await getSocialObjectsData();
+            // const summary = await getSocialObjectsData();
+
+            // FIXME: use envio + IPFS data instead
+            const messages = await interaction.channel.messages.fetch();
+            const text = messages
+              .filter((m) => !m.author.bot)
+              .filter((m) => Date.now() - m.createdTimestamp < 86400000)
+              .map((m) =>
+                JSON.stringify({
+                  author: m.author.globalName,
+                  content: m.content,
+                })
+              )
+              .join(",");
+
+            const prompt =
+              " I want you to remember all of the chunk of social media data passed to you, in the form of { author: string; content: string; }. I want you to act as a objective member of the community, and use a friendly tone to summarize all the JSON-stringified objects. They are delimited by commas (not inside the object)." +
+              text;
+
+            const response =
+              (await callFlockModel(prompt ?? "")) || "No response";
 
             reply.delete();
-            await interaction.followUp("Summary of the channel: " + summary);
+            if (response !== "No response") {
+              const embeds = [
+                new EmbedBuilder()
+                  .setColor("#25E29E")
+                  .setTitle("Itinerary for " + interaction.channel.name)
+                  .setDescription(response),
+              ];
+
+              const next = new ButtonBuilder()
+                .setCustomId("next")
+                .setLabel("Next")
+                .setStyle(ButtonStyle.Primary);
+              const retry = new ButtonBuilder()
+                .setCustomId("retry")
+                .setLabel("Summarize again")
+                .setStyle(ButtonStyle.Primary);
+              const row = new ActionRowBuilder().addComponents(next, retry);
+
+              await interaction.followUp({
+                embeds,
+                components: [row],
+              });
+            } else {
+              await interaction.followUp(response);
+            }
             break;
           }
           case "itinerary": {
             const reply = await interaction.reply("This will take a while...");
 
-            // FIXME: use IPFS data instead
+            // FIXME: use envio + IPFS data instead
             const messages = await interaction.channel.messages.fetch();
             const text = messages
               .filter((m) => !m.author.bot)
+              .filter((m) => Date.now() - m.createdTimestamp < 86400000)
               .map((m) => m.content)
               .join("\n\n");
 
@@ -242,12 +289,28 @@ export function startEvents() {
               (await callFlockModel(prompt ?? "")) || "No response";
 
             reply.delete();
-            if (prompt) {
-              const embed = new EmbedBuilder()
-                .setColor("#25E29E")
-                .setTitle("Itinerary for " + interaction.channel.name)
-                .setDescription(response);
-              await interaction.followUp({ embeds: [embed] });
+            if (response !== "No response") {
+              const embeds = [
+                new EmbedBuilder()
+                  .setColor("#25E29E")
+                  .setTitle("Itinerary for " + interaction.channel.name)
+                  .setDescription(response),
+              ];
+
+              const next = new ButtonBuilder()
+                .setCustomId("next")
+                .setLabel("Next")
+                .setStyle(ButtonStyle.Primary);
+              const store = new ButtonBuilder()
+                .setCustomId("store")
+                .setLabel("Store in Travel Log")
+                .setStyle(ButtonStyle.Primary);
+              const row = new ActionRowBuilder().addComponents(next, store);
+
+              await interaction.followUp({
+                embeds,
+                components: [row],
+              });
             } else {
               await interaction.followUp(response);
             }
@@ -255,9 +318,50 @@ export function startEvents() {
             break;
           }
           case "governance":
+            // FIXME: use envio + IPFS data instead
+            const messages = await interaction.channel.messages.fetch();
+            const text = messages
+              .filter((m) => !m.author.bot)
+              .filter((m) => Date.now() - m.createdTimestamp < 86400000)
+              .map((m) => m.content)
+              .join("\n\n");
+
+            const prompt =
+              "I want you to act as an impartial participant to a DAO discussion. You should determine what the main topic is through the messages and the overall consensus of the participants. You are to give a brief summary of what the discussion was about, and some important points that others agreed with. The messages will be passed to you in in strings, delimited by 2 line breaks (`\n'\n). Here is the message:\n" +
+              text;
+
+            const response =
+              (await callFlockModel(prompt ?? "")) || "No response";
+
+            reply.delete();
+            if (response !== "No response") {
+              const embeds = [
+                new EmbedBuilder()
+                  .setColor("#25E29E")
+                  .setTitle("Itinerary for " + interaction.channel.name)
+                  .setDescription(response),
+              ];
+
+              const yes = new ButtonBuilder()
+                .setCustomId("yes")
+                .setLabel("Approve")
+                .setStyle(ButtonStyle.Primary);
+              const no = new ButtonBuilder()
+                .setCustomId("no")
+                .setLabel("Disapprove")
+                .setStyle(ButtonStyle.Primary);
+              const row = new ActionRowBuilder().addComponents(yes, no);
+
+              await interaction.followUp({
+                embeds,
+                components: [row],
+              });
+            } else {
+              await interaction.followUp(response);
+            }
             break;
           default:
-            await interaction.reply("Coming soon...");
+            await interaction.reply("Unknown subcommand");
             break;
         }
         break;

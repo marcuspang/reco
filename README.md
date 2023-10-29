@@ -2,6 +2,23 @@
 
 Link to setup [Discord bot here](https://discord.com/api/oauth2/authorize?client_id=1167783878119936080&permissions=8&redirect_uri=https%3A%2F%2F0420-62-232-123-126.ngrok-free.app%2Fdiscord-oauth-callback&response_type=code&scope=guilds%20messages.read%20activities.read%20applications.commands%20guilds.join%20bot%20applications.entitlements%20applications.builds.read%20role_connections.write).
 
+## Definitions
+
+Social Objects - refers to any social event / activity, e.g. likes, shares, comments, etc.
+
+## Problem
+
+- content curation systems are centralized
+- social objects are not owned by the user
+- security of data is unknown
+
+## Solution
+
+- decentralized curation system with decentralized AI models, allowing for summaries, sentiment analysis, etc.
+- social objects are owned by the user and encrypted on IPFS
+- plug-and-play bots for social platforms, i.e. Discord and Telegram
+- users can monetize their social objects through token-gated oracles
+
 🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
 
 ⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, and Typescript.
