@@ -1,6 +1,6 @@
 import { useState } from "react";
-import EnvioData from "../envio-data/EnvioData";
-import { ContractData } from "./ContractData";
+// import EnvioData from "../envio-data/EnvioData";
+// import { ContractData } from "./ContractData";
 
 type SelectedContent = "envio-data" | "data-visualizer";
 const ContractDataSwitcher: React.FC = () => {
@@ -30,7 +30,7 @@ const ContractDataSwitcher: React.FC = () => {
         </button>
       </div>
       <div className="h-full w-full flex flex-col justify-center items-center px-4">
-        {selectedContent === "envio-data" ? <EnvioData /> : <ContractData />}
+        {/* {selectedContent === "envio-data" ? <EnvioData /> : <ContractData />} */}
       </div>
     </div>
   );
