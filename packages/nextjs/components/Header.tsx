@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useRef, useState } from "react";
-import { FaucetButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 
 interface HeaderMenuLink {
@@ -89,7 +88,7 @@ export const Header = () => {
             <HeaderMenuLinks />
           </ul>
           <ConnectButton />
-          <FaucetButton />
+          {/* <FaucetButton /> */}
         </div>
       </div>
     </div>
