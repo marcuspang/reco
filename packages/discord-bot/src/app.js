@@ -5,6 +5,8 @@ import express from "express";
 import * as discord from "./discord.js";
 import { startEvents } from "./events.js";
 import * as storage from "./storage.js";
+import { getDiscordUserAddress } from "./database.js";
+import { hasProofOfHumanity } from "./contracts.js";
 
 const app = express();
 app.use(express.json({ verify: verifyKeyMiddleware }));
@@ -94,9 +96,6 @@ app.post("/update-metadata", async (req, res) => {
 app.get("/test", async (req, res) => {
   const channel = client.channels.cache.get();
 
-  const a = await channel?.messages.fetch({ limit: 1 });
-  console.log({ a });
-
   res.send(channel);
 });
 
@@ -114,9 +113,17 @@ async function updateMetadata(userId) {
     // This data could be POST-ed to this endpoint, but every service
     // is going to be different.  To keep the example simple, we'll
     // just generate some random data.
-    metadata = {
-      proofofhumanity: true,
-    };
+    const address = await getDiscordUserAddress(userId);
+    if (!address) {
+      metadata = {
+        proofofhumanity: false,
+      };
+    } else {
+      const hasProofOfHumanity = await hasProofOfHumanity(address);
+      metadata = {
+        proofofhumanity: hasProofOfHumanity,
+      };
+    }
   } catch (e) {
     e.message = `Error fetching external data: ${e.message}`;
     console.error(e);

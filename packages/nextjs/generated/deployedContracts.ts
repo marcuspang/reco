@@ -4,19 +4,33 @@ const contracts = {
       chainId: "31337",
       name: "localhost",
       contracts: {
-        YourContract: {
-          address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        Recommendoor: {
+          address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
           abi: [
             {
+              anonymous: false,
               inputs: [
                 {
+                  indexed: true,
                   internalType: "address",
-                  name: "_owner",
+                  name: "user",
                   type: "address",
                 },
+                {
+                  indexed: false,
+                  internalType: "string",
+                  name: "ipfsHash",
+                  type: "string",
+                },
+                {
+                  indexed: false,
+                  internalType: "string",
+                  name: "action",
+                  type: "string",
+                },
               ],
-              stateMutability: "nonpayable",
-              type: "constructor",
+              name: "InteractData",
+              type: "event",
             },
             {
               anonymous: false,
@@ -24,125 +38,70 @@ const contracts = {
                 {
                   indexed: true,
                   internalType: "address",
-                  name: "greetingSetter",
+                  name: "user",
                   type: "address",
                 },
                 {
                   indexed: false,
                   internalType: "string",
-                  name: "newGreeting",
+                  name: "ipfsHash",
                   type: "string",
                 },
                 {
                   indexed: false,
-                  internalType: "bool",
-                  name: "premium",
-                  type: "bool",
-                },
-                {
-                  indexed: false,
-                  internalType: "uint256",
-                  name: "value",
-                  type: "uint256",
+                  internalType: "string",
+                  name: "channel",
+                  type: "string",
                 },
               ],
-              name: "GreetingChange",
+              name: "UploadData",
               type: "event",
             },
             {
-              inputs: [],
-              name: "greeting",
-              outputs: [
-                {
-                  internalType: "string",
-                  name: "",
-                  type: "string",
-                },
-              ],
-              stateMutability: "view",
-              type: "function",
-            },
-            {
-              inputs: [],
-              name: "owner",
-              outputs: [
-                {
-                  internalType: "address",
-                  name: "",
-                  type: "address",
-                },
-              ],
-              stateMutability: "view",
-              type: "function",
-            },
-            {
-              inputs: [],
-              name: "premium",
-              outputs: [
-                {
-                  internalType: "bool",
-                  name: "",
-                  type: "bool",
-                },
-              ],
-              stateMutability: "view",
-              type: "function",
-            },
-            {
-              inputs: [
-                {
-                  internalType: "string",
-                  name: "_newGreeting",
-                  type: "string",
-                },
-              ],
-              name: "setGreeting",
-              outputs: [],
-              stateMutability: "payable",
-              type: "function",
-            },
-            {
-              inputs: [],
-              name: "totalCounter",
-              outputs: [
-                {
-                  internalType: "uint256",
-                  name: "",
-                  type: "uint256",
-                },
-              ],
-              stateMutability: "view",
-              type: "function",
-            },
-            {
               inputs: [
                 {
                   internalType: "address",
-                  name: "",
+                  name: "user",
                   type: "address",
                 },
-              ],
-              name: "userGreetingCounter",
-              outputs: [
                 {
-                  internalType: "uint256",
-                  name: "",
-                  type: "uint256",
+                  internalType: "string",
+                  name: "ipfsHash",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "action",
+                  type: "string",
                 },
               ],
-              stateMutability: "view",
-              type: "function",
-            },
-            {
-              inputs: [],
-              name: "withdraw",
+              name: "interactContent",
               outputs: [],
               stateMutability: "nonpayable",
               type: "function",
             },
             {
-              stateMutability: "payable",
-              type: "receive",
+              inputs: [
+                {
+                  internalType: "address",
+                  name: "user",
+                  type: "address",
+                },
+                {
+                  internalType: "string",
+                  name: "ipfsHash",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "channel",
+                  type: "string",
+                },
+              ],
+              name: "uploadData",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
             },
           ],
         },

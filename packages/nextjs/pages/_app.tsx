@@ -44,9 +44,9 @@ const ScaffoldEthApp = ({ Component, pageProps: { session, ...pageProps } }: App
             avatar={BlockieAvatar}
             theme={isDarkTheme ? darkTheme() : lightTheme()}
           >
-            <div className="flex flex-col min-h-screen">
+            <div className="flex flex-col min-h-screen bg-[#1E1F22]">
               {"hideHeader" in pageProps && pageProps.hideHeader ? null : <Header />}
-              <main className="relative flex flex-col flex-1">
+              <main className="relative flex flex-col flex-1 max-w-7xl mx-auto w-full">
                 <Component {...pageProps} />
               </main>
               <Footer />
@@ -54,7 +54,7 @@ const ScaffoldEthApp = ({ Component, pageProps: { session, ...pageProps } }: App
             <Toaster />
           </RainbowKitProvider>
         </WagmiConfig>
-      </ApolloWrapper>{" "}
+      </ApolloWrapper>
     </SessionProvider>
   );
 };

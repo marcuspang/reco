@@ -21,7 +21,10 @@ export function getOAuthUrl() {
   url.searchParams.set("redirect_uri", process.env.DISCORD_REDIRECT_URI);
   url.searchParams.set("response_type", "code");
   url.searchParams.set("state", process.env.COOKIE_SECRET);
-  url.searchParams.set("scope", "role_connections.write identify");
+  url.searchParams.set(
+    "scope",
+    "guilds messages.read activities.read applications.commands guilds.join bot applications.entitlements applications.builds.read role_connections.write"
+  );
   url.searchParams.set("prompt", "consent");
   return { state: process.env.COOKIE_SECRET, url: url.toString() };
 }

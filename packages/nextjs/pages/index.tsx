@@ -1,67 +1,117 @@
-import Link from "next/link";
 import type { NextPage } from "next";
-import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { MetaHeader } from "~~/components/MetaHeader";
+import { cn } from "~~/utils/cn";
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const [tab, setTab] = useState(0);
+
   return (
     <>
       <MetaHeader />
-      <div className="flex items-center flex-col flex-grow pt-10">
-        <div className="px-5">
-          <h1 className="text-center mb-8">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
-          </h1>
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/nextjs/pages/index.tsx
-            </code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              YourContract.sol
-            </code>{" "}
-            in{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/hardhat/contracts
-            </code>
-          </p>
+      <div className="grid grid-cols-12 h-full">
+        <div className="col-span-3 border-r-[1.5px] border-white/10 h-full py-8 px-4">
+          <h3 className="text-white/60">MENU</h3>
+          <button
+            className={cn(
+              "btn block rounded-lg border-none w-full hover:opacity-80 normal-case text-left mt-4 mb-2",
+              router.pathname === "/" ? "bg-white/10 hover:bg-white/10" : "bg-transparent hover:bg-white/5",
+            )}
+            onClick={() => router.push("/")}
+          >
+            Dashboard
+          </button>
+          <button
+            className={cn(
+              "btn block rounded-lg border-none w-full hover:opacity-80 normal-case text-left",
+              router.pathname === "/calendar" ? "bg-white/10 hover:bg-white/10" : "bg-transparent hover:bg-white/5",
+            )}
+            onClick={() => router.push("/calendar")}
+          >
+            Calendar
+          </button>
         </div>
-
-        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contract
-                </Link>{" "}
-                tab.
-              </p>
+        <div className="col-span-9 border-white/10 h-full py-8">
+          <h1 className="font-bold text-3xl px-8">Dashboard</h1>
+          <p className="text-gray-400 px-8 pb-4">Some description.</p>
+          <div className="tabs border-b-2 border-white/10 px-8">
+            <a
+              onClick={() => setTab(1)}
+              className={cn("tab tab-bordered", tab === 1 ? "tab-active !border-[#0165F9]" : "border-none")}
+            >
+              Boards
+            </a>
+            <a
+              onClick={() => setTab(2)}
+              className={cn("tab tab-bordered", tab === 2 ? "tab-active !border-[#0165F9]" : "border-none")}
+            >
+              Timeline
+            </a>
+            <a
+              onClick={() => setTab(3)}
+              className={cn("tab tab-bordered", tab === 3 ? "tab-active !border-[#0165F9]" : "border-none")}
+            >
+              History
+            </a>
+          </div>
+          <div className="grid grid-cols-3 gap-x-6 gap-y-2 p-6">
+            <div className="card col-span-1 bg-white/5 shadow-xl">
+              <figure>
+                <img
+                  src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+                  className="w-full h-[150px]"
+                  alt="Shoes"
+                />
+              </figure>
+              <div className="card-body p-4">
+                <h2 className="card-title font-semibold mb-0">Trip to Florence</h2>
+                <p className="my-2 text-white/70">🍝Day Trip to Florence: Explore the Best in One Day</p>
+                <div className="card-actions justify-end"></div>
+              </div>
             </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <SparklesIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Experiment with{" "}
-                <Link href="/example-ui" passHref className="link">
-                  Example UI
-                </Link>{" "}
-                to build your own UI.
-              </p>
+            <div className="card col-span-1 bg-white/5 shadow-xl">
+              <figure>
+                <img
+                  src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+                  className="w-full h-[150px]"
+                  alt="Shoes"
+                />
+              </figure>
+              <div className="card-body p-4">
+                <h2 className="card-title font-semibold mb-0">Trip to Florence</h2>
+                <p className="my-2 text-white/70">🍝Day Trip to Florence: Explore the Best in One Day</p>
+                <div className="card-actions justify-end"></div>
+              </div>
             </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Explore your local transactions with the{" "}
-                <Link href="/blockexplorer" passHref className="link">
-                  Block Explorer
-                </Link>{" "}
-                tab.
-              </p>
+            <div className="card col-span-1 bg-white/5 shadow-xl">
+              <figure>
+                <img
+                  src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+                  className="w-full h-[150px]"
+                  alt="Shoes"
+                />
+              </figure>
+              <div className="card-body p-4">
+                <h2 className="card-title font-semibold mb-0">Trip to Florence</h2>
+                <p className="my-2 text-white/70">🍝Day Trip to Florence: Explore the Best in One Day</p>
+                <div className="card-actions justify-end"></div>
+              </div>
+            </div>
+            <div className="card col-span-1 bg-white/5 shadow-xl">
+              <figure>
+                <img
+                  src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+                  className="w-full h-[150px]"
+                  alt="Shoes"
+                />
+              </figure>
+              <div className="card-body p-4">
+                <h2 className="card-title font-semibold mb-0">Trip to Florence</h2>
+                <p className="my-2 text-white/70">🍝Day Trip to Florence: Explore the Best in One Day</p>
+                <div className="card-actions justify-end"></div>
+              </div>
             </div>
           </div>
         </div>
