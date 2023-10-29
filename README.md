@@ -1,6 +1,6 @@
 # 🏗 Reco
 
-Link to setup [Discord bot here](https://discord.com/api/oauth2/authorize?client_id=1167783878119936080&permissions=8&redirect_uri=https%3A%2F%2F0420-62-232-123-126.ngrok-free.app%2Fdiscord-oauth-callback&response_type=code&scope=guilds%20messages.read%20activities.read%20applications.commands%20guilds.join%20bot%20applications.entitlements%20applications.builds.read%20role_connections.write).
+Link to setup [Discord bot here](https://discord.com/api/oauth2/authorize?client_id=1167783878119936080&permissions=8&redirect_uri=https%3A%2F%2F0420-62-232-123-126.ngrok-free.app%2Fdiscord-oauth-callback&response_type=code&scope=guilds%20guilds.join%20messages.read%20applications.commands%20bot%20applications.entitlements).
 
 ## Definitions
 
